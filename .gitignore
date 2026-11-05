@@ -1,0 +1,41 @@
+# ---- build artifacts / heavy local state (never commit) ----
+.gpu-runtime/
+.medsam2/weights/
+.medsam2/src/
+.medsam2/src.tar.gz
+.medsam2/build/medsam2/weights/
+.medsam2/eval/frames/
+.medsam2/eval/compare/
+
+# ---- runtime / deployment state ----
+.env
+.credentials
+*.log
+ngrok.log
+.nuclio-tmp/
+.oss-batch/
+.upstream/
+.cvat-upstream/
+.build/
+
+# ---- evidence media (screenshots stay on the host) ----
+evidence/**/*.png
+evidence/**/*.jpg
+evidence/**/*.jpeg
+
+# ---- python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# ---- node ----
+node_modules/
+npm-debug.log*
+yarn-error.log
+
+# ---- editors / os ----
+.vscode/
+.idea/
+.DS_Store

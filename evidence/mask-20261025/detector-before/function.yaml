@@ -1,0 +1,69 @@
+metadata:
+  name: pth-facebookresearch-sam2-1-hiera-large-auto
+  namespace: nuclio
+  annotations:
+    name: Grounding DINO + SAM 2.1 (Experimental)
+    version: 2
+    type: detector
+    spec: |
+      [
+        { "id": 1, "name": "神经根", "type": "polygon" },
+        { "id": 2, "name": "硬膜囊", "type": "polygon" },
+        { "id": 3, "name": "黄韧带", "type": "polygon" },
+        { "id": 4, "name": "纤维环", "type": "polygon" },
+        { "id": 5, "name": "髓核", "type": "polygon" },
+        { "id": 6, "name": "椎板", "type": "polygon" },
+        { "id": 7, "name": "关节突", "type": "polygon" },
+        { "id": 8, "name": "硬膜外脂肪", "type": "polygon" },
+        { "id": 9, "name": "血管", "type": "polygon" },
+        { "id": 10, "name": "抓钳", "type": "polygon" },
+        { "id": 11, "name": "双极电凝", "type": "polygon" },
+        { "id": 12, "name": "磨钻", "type": "polygon" },
+        { "id": 13, "name": "咬骨钳", "type": "polygon" },
+        { "id": 14, "name": "神经探钩", "type": "polygon" }
+      ]
+
+spec:
+  description: Experimental zero-shot detection with fixed English anatomy prompts in Grounding DINO, followed by SAM 2.1 box segmentation. Not a medical-trained classifier; predictions may be missing or mislabeled and require review. This detector does not accept clicks; use the separate Point & Box interactor.
+  runtime: python:3.10
+  handler: main:handler
+  eventTimeout: 600s
+  readinessTimeoutSeconds: 240
+  env:
+    - name: PYTHONPATH
+      value: /opt/nuclio
+    - name: HF_HOME
+      value: /opt/hf
+    - name: HF_HUB_DISABLE_XET
+      value: "1"
+    - name: MODEL_ID
+      value: facebook/sam2.1-hiera-large
+    - name: DINO_ID
+      value: IDEA-Research/grounding-dino-tiny
+
+  build:
+    image: cvat.pth.facebookresearch.sam2_1_hiera_large.auto
+    baseImage: cvat.pth.facebookresearch.sam2_1_hiera_large:latest
+    directives:
+      preCopy:
+        - kind: ENV
+          value: HF_HOME=/opt/hf
+        - kind: ENV
+          value: HF_HUB_DISABLE_XET=1
+        - kind: RUN
+          value: python3 -c "from huggingface_hub import snapshot_download; snapshot_download('IDEA-Research/grounding-dino-tiny', allow_patterns=['*.json','*.safetensors','*.txt','*.model'])"
+
+  triggers:
+    myHttpTrigger:
+      numWorkers: 1
+      kind: http
+      workerAvailabilityTimeoutMilliseconds: 240000
+      attributes:
+        maxRequestBodySize: 67108864
+
+  platform:
+    attributes:
+      restartPolicy:
+        name: always
+        maximumRetryCount: 3
+      mountMode: volume

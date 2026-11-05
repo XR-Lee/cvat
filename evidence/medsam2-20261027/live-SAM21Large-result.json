@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "message": "完成（SAM2.1 Large），结果已放入编辑器，请逐帧检查后 Save。\n",
+  "staged_new_masks": 10,
+  "saved": 12,
+  "gpu_calls": 7,
+  "toolbar": {
+    "save_top": 48,
+    "mask_top": 48,
+    "save_h": 48,
+    "mask_h": 48
+  },
+  "errors": [],
+  "model": "SAM2.1 Large"
+}

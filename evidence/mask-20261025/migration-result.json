@@ -1,0 +1,15 @@
+{
+  "task": 2,
+  "job": 1,
+  "converted_shape_ids": [
+    1,
+    2,
+    3
+  ],
+  "mask_label_count": 14,
+  "all_checks_passed": true,
+  "bitmap_hashes_verified": true,
+  "public_detector_masks": 3,
+  "temporary_task_deleted": 4,
+  "full_video_inference_started": false
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "frame": 0,
+    "seconds": 1.436,
+    "masks": 3,
+    "device": "cuda"
+  },
+  {
+    "frame": 1,
+    "seconds": 0.147,
+    "masks": 3,
+    "device": "cuda"
+  },
+  {
+    "frame": 2,
+    "seconds": 0.136,
+    "masks": 3,
+    "device": "cuda"
+  },
+  {
+    "frame": 3,
+    "seconds": 0.139,
+    "masks": 3,
+    "device": "cuda"
+  }
+]

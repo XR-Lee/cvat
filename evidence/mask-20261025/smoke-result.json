@@ -1,0 +1,16 @@
+{
+  "model": "Grounding DINO + SAM 2.1 - Masks (Experimental)",
+  "polygon_to_mask_update_preserves_id": true,
+  "sync": {
+    "seconds": 10.91,
+    "masks": 3
+  },
+  "point_prompt": "valid nonempty masks",
+  "batch": {
+    "seconds": 5.66,
+    "status": "finished",
+    "saved_new_masks": 3,
+    "existing_mask_preserved": true
+  },
+  "original_annotations_unchanged": true
+}

@@ -1,0 +1,370 @@
+{
+  "frames": [
+    {
+      "frame": 0,
+      "same_detections": true,
+      "n_sam21": 2,
+      "n_medsam2": 2,
+      "sec_sam21": 25.86,
+      "sec_medsam2": 7.58,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.3840",
+          "iou": 0.889,
+          "sam21_area": 219506,
+          "medsam2_area": 195177
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.2709",
+          "iou": 0.651,
+          "sam21_area": 123778,
+          "medsam2_area": 83608
+        }
+      ]
+    },
+    {
+      "frame": 21,
+      "same_detections": false,
+      "n_sam21": 3,
+      "n_medsam2": 3,
+      "sec_sam21": 14.05,
+      "sec_medsam2": 7.28,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.3789",
+          "iou": 0.863,
+          "sam21_area": 215941,
+          "medsam2_area": 188654
+        },
+        {
+          "label": "血管",
+          "confidence": "0.2597",
+          "iou": 0.862,
+          "sam21_area": 216095,
+          "medsam2_area": 188434
+        },
+        {
+          "label": "磨钻",
+          "confidence": "0.2617",
+          "iou": 0.869,
+          "sam21_area": 216283,
+          "medsam2_area": 189967
+        }
+      ]
+    },
+    {
+      "frame": 45,
+      "same_detections": true,
+      "n_sam21": 2,
+      "n_medsam2": 2,
+      "sec_sam21": 12.14,
+      "sec_medsam2": 6.78,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.3440",
+          "iou": 0.835,
+          "sam21_area": 219609,
+          "medsam2_area": 183651
+        },
+        {
+          "label": "血管",
+          "confidence": "0.3050",
+          "iou": 0.783,
+          "sam21_area": 219630,
+          "medsam2_area": 172359
+        }
+      ]
+    },
+    {
+      "frame": 500,
+      "same_detections": true,
+      "n_sam21": 2,
+      "n_medsam2": 2,
+      "sec_sam21": 12.93,
+      "sec_medsam2": 6.63,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.4021",
+          "iou": 0.917,
+          "sam21_area": 219116,
+          "medsam2_area": 201605
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.2805",
+          "iou": 0.916,
+          "sam21_area": 219134,
+          "medsam2_area": 201337
+        }
+      ]
+    },
+    {
+      "frame": 1500,
+      "same_detections": true,
+      "n_sam21": 3,
+      "n_medsam2": 3,
+      "sec_sam21": 12.63,
+      "sec_medsam2": 6.6,
+      "detections": [
+        {
+          "label": "黄韧带",
+          "confidence": "0.3948",
+          "iou": 0.882,
+          "sam21_area": 79881,
+          "medsam2_area": 75600
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.3586",
+          "iou": 0.699,
+          "sam21_area": 108742,
+          "medsam2_area": 149787
+        },
+        {
+          "label": "血管",
+          "confidence": "0.3384",
+          "iou": 0.682,
+          "sam21_area": 105649,
+          "medsam2_area": 149136
+        }
+      ]
+    },
+    {
+      "frame": 2993,
+      "same_detections": true,
+      "n_sam21": 2,
+      "n_medsam2": 2,
+      "sec_sam21": 12.82,
+      "sec_medsam2": 6.93,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.3853",
+          "iou": 0.959,
+          "sam21_area": 220493,
+          "medsam2_area": 211791
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.2672",
+          "iou": 0.677,
+          "sam21_area": 160835,
+          "medsam2_area": 146253
+        }
+      ]
+    },
+    {
+      "frame": 3539,
+      "same_detections": false,
+      "n_sam21": 2,
+      "n_medsam2": 2,
+      "sec_sam21": 13.76,
+      "sec_medsam2": 6.99,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.3984",
+          "iou": 0.952,
+          "sam21_area": 219260,
+          "medsam2_area": 209193
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.2822",
+          "iou": 0.952,
+          "sam21_area": 219281,
+          "medsam2_area": 209250
+        }
+      ]
+    },
+    {
+      "frame": 4473,
+      "same_detections": true,
+      "n_sam21": 2,
+      "n_medsam2": 2,
+      "sec_sam21": 18.31,
+      "sec_medsam2": 7.04,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.3791",
+          "iou": 0.992,
+          "sam21_area": 219998,
+          "medsam2_area": 218233
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.2600",
+          "iou": 0.992,
+          "sam21_area": 220018,
+          "medsam2_area": 218330
+        }
+      ]
+    },
+    {
+      "frame": 4544,
+      "same_detections": true,
+      "n_sam21": 3,
+      "n_medsam2": 3,
+      "sec_sam21": 12.04,
+      "sec_medsam2": 6.43,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.4095",
+          "iou": 0.99,
+          "sam21_area": 219134,
+          "medsam2_area": 217283
+        },
+        {
+          "label": "血管",
+          "confidence": "0.2769",
+          "iou": 0.991,
+          "sam21_area": 219197,
+          "medsam2_area": 217555
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.2717",
+          "iou": 0.991,
+          "sam21_area": 219148,
+          "medsam2_area": 217412
+        }
+      ]
+    },
+    {
+      "frame": 6031,
+      "same_detections": false,
+      "n_sam21": 2,
+      "n_medsam2": 2,
+      "sec_sam21": 13.17,
+      "sec_medsam2": 6.7,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.4214",
+          "iou": 0.95,
+          "sam21_area": 219454,
+          "medsam2_area": 208527
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.3030",
+          "iou": 0.95,
+          "sam21_area": 219445,
+          "medsam2_area": 208552
+        }
+      ]
+    },
+    {
+      "frame": 8000,
+      "same_detections": true,
+      "n_sam21": 2,
+      "n_medsam2": 2,
+      "sec_sam21": 12.53,
+      "sec_medsam2": 6.32,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.4301",
+          "iou": 0.991,
+          "sam21_area": 219014,
+          "medsam2_area": 217205
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.2611",
+          "iou": 0.579,
+          "sam21_area": 130855,
+          "medsam2_area": 85817
+        }
+      ]
+    },
+    {
+      "frame": 10000,
+      "same_detections": true,
+      "n_sam21": 2,
+      "n_medsam2": 2,
+      "sec_sam21": 12.44,
+      "sec_medsam2": 6.99,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.3982",
+          "iou": 0.98,
+          "sam21_area": 220218,
+          "medsam2_area": 215927
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.2667",
+          "iou": 0.981,
+          "sam21_area": 220229,
+          "medsam2_area": 215987
+        }
+      ]
+    },
+    {
+      "frame": 12500,
+      "same_detections": true,
+      "n_sam21": 2,
+      "n_medsam2": 2,
+      "sec_sam21": 12.83,
+      "sec_medsam2": 6.97,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.4012",
+          "iou": 0.77,
+          "sam21_area": 215202,
+          "medsam2_area": 170649
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.2733",
+          "iou": 0.767,
+          "sam21_area": 216019,
+          "medsam2_area": 169602
+        }
+      ]
+    },
+    {
+      "frame": 13500,
+      "same_detections": true,
+      "n_sam21": 2,
+      "n_medsam2": 2,
+      "sec_sam21": 14.16,
+      "sec_medsam2": 6.79,
+      "detections": [
+        {
+          "label": "髓核",
+          "confidence": "0.4305",
+          "iou": 0.976,
+          "sam21_area": 219857,
+          "medsam2_area": 214687
+        },
+        {
+          "label": "髓核",
+          "confidence": "0.3040",
+          "iou": 0.976,
+          "sam21_area": 219860,
+          "medsam2_area": 214730
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "frames": 14,
+    "detections": 31,
+    "all_detections_identical": false,
+    "median_iou": 0.917,
+    "iou_below_0_5": 0,
+    "median_sec_sam21": 12.879999999999999,
+    "median_sec_medsam2": 6.859999999999999
+  }
+}

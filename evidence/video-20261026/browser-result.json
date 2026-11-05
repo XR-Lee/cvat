@@ -1,0 +1,52 @@
+{
+  "result": {
+    "progress": [
+      {
+        "message": "Encoding source Mask into SAM2 temporal memory…",
+        "percent": 0
+      },
+      {
+        "message": "SAM2 video: frame 1 (1/3); skipped 0",
+        "percent": 0
+      },
+      {
+        "message": "SAM2 video: frame 2 (2/3); skipped 0",
+        "percent": 33
+      },
+      {
+        "message": "SAM2 video: frame 3 (3/3); skipped 1",
+        "percent": 67
+      },
+      {
+        "message": "2 masks staged; 1 existing-label frames skipped. Review then Save.",
+        "percent": 100
+      }
+    ],
+    "shapes": [
+      {
+        "id": 11,
+        "frame": 0,
+        "type": "mask",
+        "group": 1
+      },
+      {
+        "frame": 1,
+        "type": "mask",
+        "group": 1
+      },
+      {
+        "id": 12,
+        "frame": 2,
+        "type": "mask",
+        "group": 0
+      },
+      {
+        "frame": 3,
+        "type": "mask",
+        "group": 1
+      }
+    ],
+    "saved": true
+  },
+  "errors": []
+}

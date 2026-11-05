@@ -1,0 +1,23 @@
+{
+  "box": {
+    "first_s": 0.438,
+    "cached_s": 0.014,
+    "iou_vs_saved_sam_mask": 0.898,
+    "fg": 109288,
+    "identical_to_direct_official_call": true
+  },
+  "point": {
+    "first_s": 0.013,
+    "cached_s": 0.014,
+    "iou_vs_saved_sam_mask": 0.949,
+    "fg": 103129,
+    "identical_to_direct_official_call": true
+  },
+  "box+points": {
+    "first_s": 0.014,
+    "cached_s": 0.013,
+    "iou_vs_saved_sam_mask": 0.963,
+    "fg": 99632,
+    "identical_to_direct_official_call": true
+  }
+}

@@ -1,0 +1,45 @@
+metadata:
+  name: pth-medsam2-interactor
+  namespace: nuclio
+  annotations:
+    name: MedSAM2 - Point & Box (Research)
+    version: 2
+    type: interactor
+    spec: "[]"
+    min_pos_points: 0
+    min_neg_points: 0
+    startswith_box_optional: true
+    help_message: Experimental MedSAM2_latest (SAM2.1 Tiny, 512 input). Trained mainly with box prompts on CT/MRI/ultrasound/polyp endoscopy, not spinal endoscopy; keep "Start with a bounding box" on for best results, then refine with points. Weights are licensed for research and education only. SAM 2.1 - Point & Box remains the default.
+
+spec:
+  description: Experimental MedSAM2 point/box interactive segmentation on CPU (bowang-lab/MedSAM2 332f30d). Research/education-only weights.
+  runtime: python:3.10
+  handler: main:handler
+  eventTimeout: 60s
+  readinessTimeoutSeconds: 240
+  env:
+    - name: PYTHONPATH
+      value: /opt/nuclio:/opt/medsam2
+    - name: MEDSAM2_ROOT
+      value: /opt/medsam2
+    - name: HF_HUB_OFFLINE
+      value: "1"
+    - name: TORCH_NUM_THREADS
+      value: "6"
+  build:
+    image: cvat.pth.medsam2_interactor
+    baseImage: cvat.medsam2-cuda:332f30d
+  triggers:
+    myHttpTrigger:
+      numWorkers: 1
+      kind: http
+      workerAvailabilityTimeoutMilliseconds: 60000
+      attributes:
+        maxRequestBodySize: 67108864
+        port: 32775
+  platform:
+    attributes:
+      restartPolicy:
+        name: always
+        maximumRetryCount: 3
+      mountMode: volume

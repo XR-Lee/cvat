@@ -1,0 +1,10 @@
+{
+  "state": "verified",
+  "task_2_annotations_unchanged": true,
+  "temporary_task_deleted": 5,
+  "public_browser_ui_passed": true,
+  "model_unit_tests": 5,
+  "plugin_unit_tests": 6,
+  "real_following_frames_tested": 20,
+  "full_video_started": false
+}

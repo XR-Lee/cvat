@@ -1,0 +1,60 @@
+{
+  "cancelled": {
+    "unchanged": true,
+    "unsaved": false
+  },
+  "staged": {
+    "shapes": [
+      {
+        "id": 11,
+        "frame": 0,
+        "type": "mask",
+        "group": 1
+      },
+      {
+        "frame": 1,
+        "type": "mask",
+        "group": 1
+      },
+      {
+        "id": 12,
+        "frame": 2,
+        "type": "mask",
+        "group": 0
+      },
+      {
+        "frame": 3,
+        "type": "mask",
+        "group": 1
+      }
+    ],
+    "unsaved": true
+  },
+  "saved": [
+    {
+      "id": 11,
+      "frame": 0,
+      "type": "mask",
+      "group": 1
+    },
+    {
+      "id": 15,
+      "frame": 1,
+      "type": "mask",
+      "group": 1
+    },
+    {
+      "id": 12,
+      "frame": 2,
+      "type": "mask",
+      "group": 0
+    },
+    {
+      "id": 16,
+      "frame": 3,
+      "type": "mask",
+      "group": 1
+    }
+  ],
+  "errors": []
+}

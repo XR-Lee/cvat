@@ -1,0 +1,574 @@
+{
+  "pth-facebookresearch-sam2-1-hiera-large": {
+    "metadata": {
+      "name": "pth-facebookresearch-sam2-1-hiera-large",
+      "namespace": "nuclio",
+      "labels": {
+        "nuclio.io/project-name": "cvat"
+      },
+      "annotations": {
+        "help_message": "Point/box segmentation, not text detection. Click Add visual prompts, left-click inside the object, and right-click to exclude background. Turn off Start with a bounding box for point-only input. CPU image encoding runs on the first prompt; later clicks reuse the embedding.",
+        "min_neg_points": "0",
+        "min_pos_points": "0",
+        "name": "SAM 2.1 - Point & Box",
+        "spec": "[]",
+        "startswith_box_optional": "true",
+        "type": "interactor",
+        "version": "2"
+      }
+    },
+    "spec": {
+      "description": "Interactive segmentation with Meta SAM 2.1 Hiera Large",
+      "handler": "main:handler",
+      "runtime": "python:3.10",
+      "env": [
+        {
+          "name": "PYTHONPATH",
+          "value": "/opt/nuclio"
+        },
+        {
+          "name": "HF_HOME",
+          "value": "/opt/hf"
+        },
+        {
+          "name": "HF_HUB_DISABLE_XET",
+          "value": "1"
+        },
+        {
+          "name": "MODEL_ID",
+          "value": "facebook/sam2.1-hiera-large"
+        }
+      ],
+      "resources": {
+        "requests": {
+          "cpu": "25m",
+          "memory": "1Mi"
+        }
+      },
+      "image": "cvat.pth.facebookresearch.sam2_1_hiera_large:latest",
+      "targetCPU": 75,
+      "triggers": {
+        "myHttpTrigger": {
+          "class": "",
+          "kind": "http",
+          "name": "myHttpTrigger",
+          "numWorkers": 1,
+          "workerAvailabilityTimeoutMilliseconds": 240000,
+          "attributes": {
+            "maxRequestBodySize": 67108864,
+            "streamingFlushPeriod": "1s"
+          },
+          "mode": "sync"
+        }
+      },
+      "build": {
+        "functionConfigPath": "serverless/pytorch/facebookresearch/sam2/nuclio/function.yaml",
+        "image": "cvat.pth.facebookresearch.sam2_1_hiera_large",
+        "noBaseImagesPull": true,
+        "baseImage": "ubuntu:22.04",
+        "directives": {
+          "preCopy": [
+            {
+              "kind": "ENV",
+              "value": "DEBIAN_FRONTEND=noninteractive"
+            },
+            {
+              "kind": "ENV",
+              "value": "HF_HOME=/opt/hf"
+            },
+            {
+              "kind": "ENV",
+              "value": "HF_HUB_DISABLE_XET=1"
+            },
+            {
+              "kind": "ENV",
+              "value": "MODEL_ID=facebook/sam2.1-hiera-large"
+            },
+            {
+              "kind": "RUN",
+              "value": "apt-get update && apt-get install -y --no-install-recommends python-is-python3 python3-pip python3-dev gcc g++ libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*"
+            },
+            {
+              "kind": "RUN",
+              "value": "pip3 install --no-cache-dir torch==2.9.0 torchvision==0.24.0 --extra-index-url https://download.pytorch.org/whl/cpu"
+            },
+            {
+              "kind": "RUN",
+              "value": "pip3 install --no-cache-dir \"transformers>=4.57,<5\" pillow numpy opencv-python-headless huggingface_hub"
+            },
+            {
+              "kind": "RUN",
+              "value": "python3 -c \"from huggingface_hub import snapshot_download; snapshot_download('facebook/sam2.1-hiera-large', allow_patterns=['*.json','*.safetensors','*.txt','*.model','tokenizer*'])\""
+            }
+          ]
+        },
+        "codeEntryType": "image",
+        "timestamp": 1792876749
+      },
+      "platform": {
+        "attributes": {
+          "mountMode": "volume",
+          "network": "cvat_cvat",
+          "restartPolicy": {
+            "maximumRetryCount": 3,
+            "name": "always"
+          }
+        }
+      },
+      "readinessTimeoutSeconds": 240,
+      "securityContext": {},
+      "disableDefaultHTTPTrigger": false,
+      "eventTimeout": "180s",
+      "streamChunkTimeout": "",
+      "lastDeployTimestamp": "1792876740812000451"
+    },
+    "status": {
+      "state": "ready",
+      "logs": [
+        {
+          "level": "info",
+          "message": "Deploying function",
+          "name": "pth-facebookresearch-sam2-1-hiera-large",
+          "time": 1792876740697.8555
+        },
+        {
+          "builderKind": "docker",
+          "level": "info",
+          "message": "Building",
+          "name": "pth-facebookresearch-sam2-1-hiera-large",
+          "time": 1792876740697.8833,
+          "versionInfo": "Label: 1.16.3, Git commit: 284d2b667ff0963cf7366d0ba4a2a6df47c132cd, OS: linux, Arch: amd64, Go version: go1.26.3"
+        },
+        {
+          "level": "info",
+          "message": "Staging files and preparing base images",
+          "name": "deployer",
+          "time": 1792876741318.6802
+        },
+        {
+          "baseImage": "ubuntu:22.04",
+          "level": "warn",
+          "message": "Using user provided base image, runtime interpreter version is provided by the base image",
+          "name": "deployer",
+          "time": 1792876741319.1775
+        },
+        {
+          "level": "warn",
+          "message": "Python 3.10 runtime is still supported but will be deprecated soon. Migrate your code to Python 3.11 (`python:3.11`) or higher",
+          "name": "deployer",
+          "time": 1792876741319.2034
+        },
+        {
+          "baseImage": "ubuntu:22.04",
+          "level": "info",
+          "message": "Building processor image",
+          "name": "deployer",
+          "registryURL": "",
+          "taggedImageName": "cvat.pth.facebookresearch.sam2_1_hiera_large:latest",
+          "time": 1792876741319.653
+        },
+        {
+          "image": "cvat.pth.facebookresearch.sam2_1_hiera_large:latest",
+          "level": "info",
+          "message": "Build complete",
+          "name": "deployer",
+          "time": 1792876749157.2695
+        },
+        {
+          "functionName": "pth-facebookresearch-sam2-1-hiera-large",
+          "level": "info",
+          "message": "Cleaning up before deployment",
+          "name": "deployer",
+          "time": 1792876749183.0708
+        },
+        {
+          "functionName": "pth-facebookresearch-sam2-1-hiera-large",
+          "level": "info",
+          "message": "Function already exists, deleting function containers",
+          "name": "deployer",
+          "time": 1792876749526.5579
+        },
+        {
+          "externalInvocationURLs": [
+            "0.0.0.0:32768"
+          ],
+          "functionName": "pth-facebookresearch-sam2-1-hiera-large",
+          "httpPort": 32768,
+          "internalInvocationURLs": [
+            "172.20.0.21:8080"
+          ],
+          "level": "info",
+          "message": "Function deploy complete",
+          "name": "deployer",
+          "time": 1792876763963.102
+        }
+      ],
+      "httpPort": 32768,
+      "internalInvocationUrls": [
+        "172.20.0.21:8080"
+      ],
+      "externalInvocationUrls": [
+        "0.0.0.0:32768"
+      ]
+    }
+  },
+  "pth-facebookresearch-sam2-1-hiera-large-auto": {
+    "metadata": {
+      "name": "pth-facebookresearch-sam2-1-hiera-large-auto",
+      "namespace": "nuclio",
+      "labels": {
+        "nuclio.io/project-name": "cvat"
+      },
+      "annotations": {
+        "name": "Grounding DINO + SAM 2.1 (Experimental)",
+        "spec": "[\n  { \"id\": 1, \"name\": \"\u795e\u7ecf\u6839\", \"type\": \"polygon\" },\n  { \"id\": 2, \"name\": \"\u786c\u819c\u56ca\", \"type\": \"polygon\" },\n  { \"id\": 3, \"name\": \"\u9ec4\u97e7\u5e26\", \"type\": \"polygon\" },\n  { \"id\": 4, \"name\": \"\u7ea4\u7ef4\u73af\", \"type\": \"polygon\" },\n  { \"id\": 5, \"name\": \"\u9ad3\u6838\", \"type\": \"polygon\" },\n  { \"id\": 6, \"name\": \"\u690e\u677f\", \"type\": \"polygon\" },\n  { \"id\": 7, \"name\": \"\u5173\u8282\u7a81\", \"type\": \"polygon\" },\n  { \"id\": 8, \"name\": \"\u786c\u819c\u5916\u8102\u80aa\", \"type\": \"polygon\" },\n  { \"id\": 9, \"name\": \"\u8840\u7ba1\", \"type\": \"polygon\" },\n  { \"id\": 10, \"name\": \"\u6293\u94b3\", \"type\": \"polygon\" },\n  { \"id\": 11, \"name\": \"\u53cc\u6781\u7535\u51dd\", \"type\": \"polygon\" },\n  { \"id\": 12, \"name\": \"\u78e8\u94bb\", \"type\": \"polygon\" },\n  { \"id\": 13, \"name\": \"\u54ac\u9aa8\u94b3\", \"type\": \"polygon\" },\n  { \"id\": 14, \"name\": \"\u795e\u7ecf\u63a2\u94a9\", \"type\": \"polygon\" }\n]\n",
+        "type": "detector",
+        "version": "2"
+      }
+    },
+    "spec": {
+      "description": "Experimental zero-shot detection with fixed English anatomy prompts in Grounding DINO, followed by SAM 2.1 box segmentation. Not a medical-trained classifier; predictions may be missing or mislabeled and require review. This detector does not accept clicks; use the separate Point & Box interactor.",
+      "handler": "main:handler",
+      "runtime": "python:3.10",
+      "env": [
+        {
+          "name": "PYTHONPATH",
+          "value": "/opt/nuclio"
+        },
+        {
+          "name": "HF_HOME",
+          "value": "/opt/hf"
+        },
+        {
+          "name": "HF_HUB_DISABLE_XET",
+          "value": "1"
+        },
+        {
+          "name": "MODEL_ID",
+          "value": "facebook/sam2.1-hiera-large"
+        },
+        {
+          "name": "DINO_ID",
+          "value": "IDEA-Research/grounding-dino-tiny"
+        }
+      ],
+      "resources": {
+        "requests": {
+          "cpu": "25m",
+          "memory": "1Mi"
+        }
+      },
+      "image": "cvat.pth.facebookresearch.sam2_1_hiera_large.auto:latest",
+      "targetCPU": 75,
+      "triggers": {
+        "myHttpTrigger": {
+          "class": "",
+          "kind": "http",
+          "name": "myHttpTrigger",
+          "numWorkers": 1,
+          "workerAvailabilityTimeoutMilliseconds": 240000,
+          "attributes": {
+            "maxRequestBodySize": 67108864,
+            "streamingFlushPeriod": "1s"
+          },
+          "mode": "sync"
+        }
+      },
+      "build": {
+        "functionConfigPath": "serverless/pytorch/facebookresearch/sam2/nuclio-auto/function.yaml",
+        "image": "cvat.pth.facebookresearch.sam2_1_hiera_large.auto",
+        "noBaseImagesPull": true,
+        "baseImage": "cvat.pth.facebookresearch.sam2_1_hiera_large:latest",
+        "directives": {
+          "preCopy": [
+            {
+              "kind": "ENV",
+              "value": "HF_HOME=/opt/hf"
+            },
+            {
+              "kind": "ENV",
+              "value": "HF_HUB_DISABLE_XET=1"
+            },
+            {
+              "kind": "RUN",
+              "value": "python3 -c \"from huggingface_hub import snapshot_download; snapshot_download('IDEA-Research/grounding-dino-tiny', allow_patterns=['*.json','*.safetensors','*.txt','*.model'])\""
+            }
+          ]
+        },
+        "codeEntryType": "image",
+        "timestamp": 1792876881
+      },
+      "platform": {
+        "attributes": {
+          "mountMode": "volume",
+          "network": "cvat_cvat",
+          "restartPolicy": {
+            "maximumRetryCount": 3,
+            "name": "always"
+          }
+        }
+      },
+      "readinessTimeoutSeconds": 240,
+      "securityContext": {},
+      "disableDefaultHTTPTrigger": false,
+      "eventTimeout": "600s",
+      "streamChunkTimeout": "",
+      "lastDeployTimestamp": "1792876837505557113"
+    },
+    "status": {
+      "state": "ready",
+      "logs": [
+        {
+          "level": "info",
+          "message": "Deploying function",
+          "name": "pth-facebookresearch-sam2-1-hiera-large-auto",
+          "time": 1792876837355.385
+        },
+        {
+          "builderKind": "docker",
+          "level": "info",
+          "message": "Building",
+          "name": "pth-facebookresearch-sam2-1-hiera-large-auto",
+          "time": 1792876837355.4055,
+          "versionInfo": "Label: 1.16.3, Git commit: 284d2b667ff0963cf7366d0ba4a2a6df47c132cd, OS: linux, Arch: amd64, Go version: go1.26.3"
+        },
+        {
+          "level": "info",
+          "message": "Staging files and preparing base images",
+          "name": "deployer",
+          "time": 1792876838006.345
+        },
+        {
+          "baseImage": "cvat.pth.facebookresearch.sam2_1_hiera_large:latest",
+          "level": "warn",
+          "message": "Using user provided base image, runtime interpreter version is provided by the base image",
+          "name": "deployer",
+          "time": 1792876838006.9607
+        },
+        {
+          "level": "warn",
+          "message": "Python 3.10 runtime is still supported but will be deprecated soon. Migrate your code to Python 3.11 (`python:3.11`) or higher",
+          "name": "deployer",
+          "time": 1792876838006.985
+        },
+        {
+          "baseImage": "cvat.pth.facebookresearch.sam2_1_hiera_large:latest",
+          "level": "info",
+          "message": "Building processor image",
+          "name": "deployer",
+          "registryURL": "",
+          "taggedImageName": "cvat.pth.facebookresearch.sam2_1_hiera_large.auto:latest",
+          "time": 1792876838007.4185
+        },
+        {
+          "image": "cvat.pth.facebookresearch.sam2_1_hiera_large.auto:latest",
+          "level": "info",
+          "message": "Build complete",
+          "name": "deployer",
+          "time": 1792876881803.2092
+        },
+        {
+          "functionName": "pth-facebookresearch-sam2-1-hiera-large-auto",
+          "level": "info",
+          "message": "Cleaning up before deployment",
+          "name": "deployer",
+          "time": 1792876881815.3723
+        },
+        {
+          "functionName": "pth-facebookresearch-sam2-1-hiera-large-auto",
+          "level": "info",
+          "message": "Function already exists, deleting function containers",
+          "name": "deployer",
+          "time": 1792876882090.4602
+        },
+        {
+          "externalInvocationURLs": [
+            "0.0.0.0:32769"
+          ],
+          "functionName": "pth-facebookresearch-sam2-1-hiera-large-auto",
+          "httpPort": 32769,
+          "internalInvocationURLs": [
+            "172.20.0.22:8080"
+          ],
+          "level": "info",
+          "message": "Function deploy complete",
+          "name": "deployer",
+          "time": 1792876896802.2986
+        }
+      ],
+      "httpPort": 32769,
+      "internalInvocationUrls": [
+        "172.20.0.22:8080"
+      ],
+      "externalInvocationUrls": [
+        "0.0.0.0:32769"
+      ]
+    }
+  },
+  "pth-facebookresearch-sam2-1-hiera-large-tracker": {
+    "metadata": {
+      "name": "pth-facebookresearch-sam2-1-hiera-large-tracker",
+      "namespace": "nuclio",
+      "labels": {
+        "nuclio.io/project-name": "cvat"
+      },
+      "annotations": {
+        "name": "SAM 2.1 Tracker",
+        "spec": "",
+        "supported_shape_types": "rectangle",
+        "type": "tracker",
+        "version": "2"
+      }
+    },
+    "spec": {
+      "description": "Track an object across video frames with Meta SAM 2.1 Hiera Large. CVAT's tracker stores the mask's bounding box.",
+      "handler": "main:handler",
+      "runtime": "python:3.10",
+      "env": [
+        {
+          "name": "PYTHONPATH",
+          "value": "/opt/nuclio"
+        },
+        {
+          "name": "HF_HOME",
+          "value": "/opt/hf"
+        },
+        {
+          "name": "HF_HUB_DISABLE_XET",
+          "value": "1"
+        },
+        {
+          "name": "MODEL_ID",
+          "value": "facebook/sam2.1-hiera-large"
+        }
+      ],
+      "resources": {
+        "requests": {
+          "cpu": "25m",
+          "memory": "1Mi"
+        }
+      },
+      "image": "cvat.pth.facebookresearch.sam2_1_hiera_large.tracker:latest",
+      "targetCPU": 75,
+      "triggers": {
+        "myHttpTrigger": {
+          "class": "",
+          "kind": "http",
+          "name": "myHttpTrigger",
+          "numWorkers": 1,
+          "workerAvailabilityTimeoutMilliseconds": 240000,
+          "attributes": {
+            "maxRequestBodySize": 67108864,
+            "streamingFlushPeriod": "1s"
+          },
+          "mode": "sync"
+        }
+      },
+      "build": {
+        "functionConfigPath": "serverless/pytorch/facebookresearch/sam2/nuclio-tracker/function.yaml",
+        "image": "cvat.pth.facebookresearch.sam2_1_hiera_large.tracker",
+        "baseImage": "cvat.pth.facebookresearch.sam2_1_hiera_large:latest",
+        "codeEntryType": "image",
+        "timestamp": 1792681264
+      },
+      "platform": {
+        "attributes": {
+          "mountMode": "volume",
+          "network": "cvat_cvat",
+          "restartPolicy": {
+            "maximumRetryCount": 3,
+            "name": "always"
+          }
+        }
+      },
+      "readinessTimeoutSeconds": 240,
+      "securityContext": {},
+      "disableDefaultHTTPTrigger": false,
+      "eventTimeout": "180s",
+      "streamChunkTimeout": "",
+      "lastDeployTimestamp": "1792681256744530144"
+    },
+    "status": {
+      "state": "ready",
+      "logs": [
+        {
+          "level": "info",
+          "message": "Deploying function",
+          "name": "pth-facebookresearch-sam2-1-hiera-large-tracker",
+          "time": 1792681256610.102
+        },
+        {
+          "builderKind": "docker",
+          "level": "info",
+          "message": "Building",
+          "name": "pth-facebookresearch-sam2-1-hiera-large-tracker",
+          "time": 1792681256610.1409,
+          "versionInfo": "Label: 1.16.3, Git commit: 284d2b667ff0963cf7366d0ba4a2a6df47c132cd, OS: linux, Arch: amd64, Go version: go1.26.3"
+        },
+        {
+          "level": "info",
+          "message": "Staging files and preparing base images",
+          "name": "deployer",
+          "time": 1792681257207.8506
+        },
+        {
+          "baseImage": "cvat.pth.facebookresearch.sam2_1_hiera_large:latest",
+          "level": "warn",
+          "message": "Using user provided base image, runtime interpreter version is provided by the base image",
+          "name": "deployer",
+          "time": 1792681257208.3613
+        },
+        {
+          "level": "warn",
+          "message": "Python 3.10 runtime is still supported but will be deprecated soon. Migrate your code to Python 3.11 (`python:3.11`) or higher",
+          "name": "deployer",
+          "time": 1792681257208.377
+        },
+        {
+          "baseImage": "cvat.pth.facebookresearch.sam2_1_hiera_large:latest",
+          "level": "info",
+          "message": "Building processor image",
+          "name": "deployer",
+          "registryURL": "",
+          "taggedImageName": "cvat.pth.facebookresearch.sam2_1_hiera_large.tracker:latest",
+          "time": 1792681257208.7273
+        },
+        {
+          "image": "cvat.pth.facebookresearch.sam2_1_hiera_large.tracker:latest",
+          "level": "info",
+          "message": "Build complete",
+          "name": "deployer",
+          "time": 1792681264933.342
+        },
+        {
+          "functionName": "pth-facebookresearch-sam2-1-hiera-large-tracker",
+          "level": "info",
+          "message": "Cleaning up before deployment",
+          "name": "deployer",
+          "time": 1792681264940.6384
+        },
+        {
+          "externalInvocationURLs": [
+            "0.0.0.0:32770"
+          ],
+          "functionName": "pth-facebookresearch-sam2-1-hiera-large-tracker",
+          "httpPort": 32770,
+          "internalInvocationURLs": [
+            "172.20.0.23:8080"
+          ],
+          "level": "info",
+          "message": "Function deploy complete",
+          "name": "deployer",
+          "time": 1792681268385.6191
+        }
+      ],
+      "httpPort": 32770,
+      "internalInvocationUrls": [
+        "172.20.0.23:8080"
+      ],
+      "externalInvocationUrls": [
+        "0.0.0.0:32770"
+      ]
+    }
+  }
+}

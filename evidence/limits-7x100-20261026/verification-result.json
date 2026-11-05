@@ -1,0 +1,43 @@
+{
+  "state": "verified",
+  "max_masks": 7,
+  "max_following_frames": 100,
+  "default_frames": 20,
+  "cuda_stress": {
+    "passed": true,
+    "objects": 7,
+    "following_frames": 100,
+    "device": "cuda",
+    "max_total_gpu_mib": 4111,
+    "median_seconds": 0.4,
+    "nonempty_outputs": 579,
+    "requested_outputs": 700,
+    "elapsed_including_wait_seconds": 89.5,
+    "reject_8_objects": true,
+    "reject_101_frames": true,
+    "annotation_writes": false
+  },
+  "public_browser": {
+    "passed": true,
+    "objects": 7,
+    "following_frames": 100,
+    "new_masks": 699,
+    "protected_existing_masks": 1,
+    "saved_count": 708,
+    "default_frames": 20,
+    "reject_eighth": true,
+    "reject_101_frames": true,
+    "cancelled_without_writes": true,
+    "errors": [],
+    "elapsed_with_save_and_cancel_seconds": 81.959
+  },
+  "production_annotation_ids_preserved": true,
+  "temporary_task_deleted": 7,
+  "stage_function_deleted": true,
+  "frontend_sha256": "ebba1fc0424f69b76dcab6f0f2eaa757aed56d3f5de8888550d0e73b5e5c21f2",
+  "unit_tests": {
+    "frontend": 12,
+    "backend": 5
+  },
+  "full_video_started": false
+}

@@ -1,0 +1,27 @@
+{
+  "state": "verified",
+  "gpu": "RTX 4090",
+  "torch": "2.9.0+cu128",
+  "device": "cuda",
+  "max_objects": 3,
+  "default_frames": 20,
+  "max_frames": 50,
+  "public_button_run_save": true,
+  "same_label_objects_independent": true,
+  "ungrouped_objects_assigned_separate_groups": true,
+  "public_cancel_passed": true,
+  "real_distinct_objects": 3,
+  "following_frames": 20,
+  "median_public_seconds_per_frame": 0.284,
+  "preexisting_production_annotations_preserved": true,
+  "concurrent_user_added_shape_ids": [
+    77,
+    78
+  ],
+  "validation_writes_only_to_temporary_task": true,
+  "temporary_task_deleted": 6,
+  "host_driver_changed": false,
+  "full_video_started": false,
+  "backend_tests": 4,
+  "frontend_tests": 9
+}

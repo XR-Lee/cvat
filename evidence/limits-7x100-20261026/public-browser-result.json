@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "objects": 7,
+  "following_frames": 100,
+  "new_masks": 699,
+  "protected_existing_masks": 1,
+  "saved_count": 708,
+  "default_frames": 20,
+  "reject_eighth": true,
+  "reject_101_frames": true,
+  "cancelled_without_writes": true,
+  "errors": [],
+  "elapsed_with_save_and_cancel_seconds": 81.959
+}
