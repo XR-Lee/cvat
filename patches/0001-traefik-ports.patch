@@ -1,0 +1,12 @@
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -267,8 +267,7 @@
+     container_name: traefik
+     restart: always
+     ports:
+-      - 8080:8080
+-      - 8090:8090
++      - "18080:8080"
+     environment:
+       CVAT_HOST: ${CVAT_HOST:-localhost}
+       DJANGO_LOG_VIEWER_HOST: grafana

@@ -1,0 +1,54 @@
+metadata:
+  name: pth-medsam2-video-mask-gpu
+  namespace: nuclio
+  annotations:
+    name: MedSAM2 Multi-Mask Video Propagation - GPU (Research)
+    version: 2
+    type: tracker
+    supported_shape_types: mask
+    spec: "[]"
+spec:
+  description: Experimental MedSAM2_latest (bowang-lab/MedSAM2 332f30d, SAM2.1 Hiera-Tiny, 512 input) CUDA propagation for 1-7 masks and up to 100 frames. Weights licensed for research and education only. Use the Mask GPU toolbar dialog model selector. Shared GPU lock; no CPU fallback.
+  runtime: python:3.10
+  handler: main:handler
+  eventTimeout: 180s
+  readinessTimeoutSeconds: 240
+  env:
+    - name: PYTHONPATH
+      value: /opt/nuclio:/opt/medsam2
+    - name: MEDSAM2_ROOT
+      value: /opt/medsam2
+    - name: HF_HUB_OFFLINE
+      value: "1"
+    - name: TQDM_DISABLE
+      value: "1"
+    - name: GPU_LOCK_PATH
+      value: /gpu-lock
+  devices:
+    - /dev/nvidia0:/dev/nvidia0
+    - /dev/nvidiactl:/dev/nvidiactl
+    - /dev/nvidia-uvm:/dev/nvidia-uvm
+  volumes:
+    - volume:
+        name: gpu-lock
+        hostPath:
+          path: /home/xinrun/p1-full-experiments/data/models/locks/gpu.lock
+      volumeMount:
+        name: gpu-lock
+        mountPath: /gpu-lock
+  build:
+    image: cvat.pth.medsam2_video_mask_gpu
+    baseImage: cvat.medsam2-cuda:332f30d
+  triggers:
+    myHttpTrigger:
+      numWorkers: 1
+      kind: http
+      workerAvailabilityTimeoutMilliseconds: 180000
+      attributes:
+        maxRequestBodySize: 67108864
+  platform:
+    attributes:
+      restartPolicy:
+        name: always
+        maximumRetryCount: 3
+      mountMode: volume

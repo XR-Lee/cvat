@@ -1,0 +1,273 @@
+{
+  "task": 7,
+  "job": 6,
+  "before": {
+    "version": 0,
+    "tags": [],
+    "shapes": [
+      {
+        "id": 136,
+        "label_id": 52,
+        "type": "mask",
+        "frame": 0,
+        "group": 1,
+        "source": "manual",
+        "score": 1.0,
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 913,
+          "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+          "min": 0.0,
+          "max": 872.0,
+          "bbox": [
+            297.0,
+            108.0,
+            732.0,
+            474.0
+          ]
+        },
+        "attributes": [],
+        "elements": []
+      },
+      {
+        "id": 137,
+        "label_id": 53,
+        "type": "mask",
+        "frame": 0,
+        "group": 2,
+        "source": "manual",
+        "score": 1.0,
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 913,
+          "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+          "min": 0.0,
+          "max": 872.0,
+          "bbox": [
+            297.0,
+            108.0,
+            732.0,
+            474.0
+          ]
+        },
+        "attributes": [],
+        "elements": []
+      },
+      {
+        "id": 138,
+        "label_id": 52,
+        "type": "mask",
+        "frame": 0,
+        "group": 3,
+        "source": "manual",
+        "score": 1.0,
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 913,
+          "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+          "min": 0.0,
+          "max": 872.0,
+          "bbox": [
+            297.0,
+            108.0,
+            732.0,
+            474.0
+          ]
+        },
+        "attributes": [],
+        "elements": []
+      },
+      {
+        "id": 139,
+        "label_id": 53,
+        "type": "mask",
+        "frame": 0,
+        "group": 4,
+        "source": "manual",
+        "score": 1.0,
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 913,
+          "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+          "min": 0.0,
+          "max": 872.0,
+          "bbox": [
+            297.0,
+            108.0,
+            732.0,
+            474.0
+          ]
+        },
+        "attributes": [],
+        "elements": []
+      },
+      {
+        "id": 140,
+        "label_id": 52,
+        "type": "mask",
+        "frame": 0,
+        "group": 5,
+        "source": "manual",
+        "score": 1.0,
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 913,
+          "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+          "min": 0.0,
+          "max": 872.0,
+          "bbox": [
+            297.0,
+            108.0,
+            732.0,
+            474.0
+          ]
+        },
+        "attributes": [],
+        "elements": []
+      },
+      {
+        "id": 141,
+        "label_id": 53,
+        "type": "mask",
+        "frame": 0,
+        "group": 6,
+        "source": "manual",
+        "score": 1.0,
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 913,
+          "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+          "min": 0.0,
+          "max": 872.0,
+          "bbox": [
+            297.0,
+            108.0,
+            732.0,
+            474.0
+          ]
+        },
+        "attributes": [],
+        "elements": []
+      },
+      {
+        "id": 142,
+        "label_id": 52,
+        "type": "mask",
+        "frame": 0,
+        "group": 7,
+        "source": "manual",
+        "score": 1.0,
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 913,
+          "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+          "min": 0.0,
+          "max": 872.0,
+          "bbox": [
+            297.0,
+            108.0,
+            732.0,
+            474.0
+          ]
+        },
+        "attributes": [],
+        "elements": []
+      },
+      {
+        "id": 143,
+        "label_id": 53,
+        "type": "mask",
+        "frame": 0,
+        "group": 8,
+        "source": "manual",
+        "score": 1.0,
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 913,
+          "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+          "min": 0.0,
+          "max": 872.0,
+          "bbox": [
+            297.0,
+            108.0,
+            732.0,
+            474.0
+          ]
+        },
+        "attributes": [],
+        "elements": []
+      },
+      {
+        "id": 144,
+        "label_id": 52,
+        "type": "mask",
+        "frame": 50,
+        "group": 1,
+        "source": "manual",
+        "score": 1.0,
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 913,
+          "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+          "min": 0.0,
+          "max": 872.0,
+          "bbox": [
+            297.0,
+            108.0,
+            732.0,
+            474.0
+          ]
+        },
+        "attributes": [],
+        "elements": []
+      }
+    ],
+    "tracks": [],
+    "intervals": []
+  }
+}

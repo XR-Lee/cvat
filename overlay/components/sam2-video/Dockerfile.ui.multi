@@ -1,0 +1,6 @@
+# Extend the verified single-mask UI with an explicit multi-object GPU button.
+FROM cvat/ui:sam2-video-v1
+USER root
+COPY multi-mask-gpu.js /usr/share/nginx/html/multi-mask-gpu.js
+RUN sed -i 's@</body>@<script defer src="/multi-mask-gpu.js?v=medsam2-1"></script></body>@' /usr/share/nginx/html/index.html
+USER 101

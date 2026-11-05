@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "prompting_models": [
+    "SAM 2.1 - Point & Box",
+    "MedSAM2 - Point & Box (Research)"
+  ],
+  "tracking_models": [
+    "SAM2.1 Large（默认）",
+    "MedSAM2（实验；权重仅限研究/教学）"
+  ],
+  "task2_writes": 0,
+  "medsam2_interactor_calls": 1,
+  "saved_shape": {
+    "type": "mask",
+    "source": "semi-auto"
+  },
+  "errors": []
+}

@@ -1,0 +1,29 @@
+services:
+  cvat_server:
+    environment:
+      CVAT_HEALTH_DISK_USAGE_MAX: "99"
+      CVAT_NUCLIO_DEFAULT_TIMEOUT: "600"
+      CVAT_HOST: cvat.lxrserver.xyz
+      CVAT_BASE_URL: https://cvat.lxrserver.xyz
+      CVAT_CSRF_TRUSTED_ORIGINS: https://cvat.lxrserver.xyz,http://cvat.lxrserver.xyz,http://127.0.0.1:18080,http://localhost:18080
+    volumes:
+      - ./production.public.py:/opt/cvat/cvat/settings/production.py:ro
+    labels:
+      traefik.http.routers.cvat.rule: "HostRegexp(`^.+$`) && (PathPrefix(`/api/`) || PathPrefix(`/static/`) || PathPrefix(`/admin`) || PathPrefix(`/django-rq`))"
+
+  cvat_ui:
+    image: cvat/ui:sam2-multi-gpu-v4-medsam2
+    labels:
+      traefik.http.routers.cvat-ui.rule: "HostRegexp(`^.+$`)"
+
+  cvat_worker_annotation:
+    environment:
+      CVAT_NUCLIO_DEFAULT_TIMEOUT: "600"
+
+  traefik:
+    environment:
+      TRAEFIK_ENTRYPOINTS_web_FORWARDEDHEADERS_INSECURE: "true"
+
+  nuclio:
+    ports:
+      - "127.0.0.1:8070:8070"

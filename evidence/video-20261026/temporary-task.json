@@ -1,0 +1,70 @@
+{
+  "task": 5,
+  "job": 4,
+  "before": {
+    "version": 0,
+    "tags": [],
+    "shapes": [
+      {
+        "type": "mask",
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 913,
+          "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+          "min": 0.0,
+          "max": 872.0,
+          "bbox": [
+            297.0,
+            108.0,
+            732.0,
+            474.0
+          ]
+        },
+        "id": 11,
+        "label_id": 49,
+        "group": 0,
+        "source": "manual",
+        "frame": 0,
+        "score": 1.0,
+        "attributes": [],
+        "elements": []
+      },
+      {
+        "type": "mask",
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 913,
+          "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+          "min": 0.0,
+          "max": 872.0,
+          "bbox": [
+            297.0,
+            108.0,
+            732.0,
+            474.0
+          ]
+        },
+        "id": 12,
+        "label_id": 49,
+        "group": 0,
+        "source": "manual",
+        "frame": 2,
+        "score": 1.0,
+        "attributes": [],
+        "elements": []
+      }
+    ],
+    "tracks": [],
+    "intervals": []
+  }
+}

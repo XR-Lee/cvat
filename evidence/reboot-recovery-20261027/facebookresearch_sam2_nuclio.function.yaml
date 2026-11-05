@@ -1,0 +1,65 @@
+metadata:
+  name: pth-facebookresearch-sam2-1-hiera-large
+  namespace: nuclio
+  annotations:
+    name: SAM 2.1 - Point & Box
+    version: 2
+    type: interactor
+    spec: "[]"
+    min_pos_points: 0
+    min_neg_points: 0
+    startswith_box_optional: true
+    help_message: Point/box segmentation, not text detection. Click Add visual prompts, left-click inside the object, and right-click to exclude background. Turn off Start with a bounding box for point-only input. CPU image encoding runs on the first prompt; later clicks reuse the embedding.
+
+spec:
+  description: Interactive segmentation with Meta SAM 2.1 Hiera Large
+  runtime: python:3.10
+  handler: main:handler
+  eventTimeout: 180s
+  readinessTimeoutSeconds: 240
+  env:
+    - name: PYTHONPATH
+      value: /opt/nuclio
+    - name: HF_HOME
+      value: /opt/hf
+    - name: HF_HUB_DISABLE_XET
+      value: "1"
+    - name: MODEL_ID
+      value: facebook/sam2.1-hiera-large
+
+  build:
+    image: cvat.pth.facebookresearch.sam2_1_hiera_large
+    baseImage: ubuntu:22.04
+    directives:
+      preCopy:
+        - kind: ENV
+          value: DEBIAN_FRONTEND=noninteractive
+        - kind: ENV
+          value: HF_HOME=/opt/hf
+        - kind: ENV
+          value: HF_HUB_DISABLE_XET=1
+        - kind: ENV
+          value: MODEL_ID=facebook/sam2.1-hiera-large
+        - kind: RUN
+          value: apt-get update && apt-get install -y --no-install-recommends python-is-python3 python3-pip python3-dev gcc g++ libgl1 libglib2.0-0 && rm -rf /var/lib/apt/lists/*
+        - kind: RUN
+          value: pip3 install --no-cache-dir torch==2.9.0 torchvision==0.24.0 --extra-index-url https://download.pytorch.org/whl/cpu
+        - kind: RUN
+          value: pip3 install --no-cache-dir "transformers>=4.57,<5" pillow numpy opencv-python-headless huggingface_hub
+        - kind: RUN
+          value: python3 -c "from huggingface_hub import snapshot_download; snapshot_download('facebook/sam2.1-hiera-large', allow_patterns=['*.json','*.safetensors','*.txt','*.model','tokenizer*'])"
+
+  triggers:
+    myHttpTrigger:
+      numWorkers: 1
+      kind: http
+      workerAvailabilityTimeoutMilliseconds: 240000
+      attributes:
+        maxRequestBodySize: 67108864
+
+  platform:
+    attributes:
+      restartPolicy:
+        name: always
+        maximumRetryCount: 3
+      mountMode: volume

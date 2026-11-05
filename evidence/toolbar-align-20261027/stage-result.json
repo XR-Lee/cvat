@@ -1,0 +1,324 @@
+{
+  "passed": true,
+  "metrics": [
+    {
+      "width": 1600,
+      "save": {
+        "rect": {
+          "x": 81,
+          "y": 48,
+          "width": 48,
+          "height": 48,
+          "top": 48,
+          "right": 129,
+          "bottom": 96,
+          "left": 81
+        },
+        "icon": {
+          "x": 95,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 115,
+          "bottom": 74.140625,
+          "left": 95
+        },
+        "caption": {
+          "x": 93.59375,
+          "y": 74.140625,
+          "width": 22.796875,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 116.390625,
+          "bottom": 89.84375,
+          "left": 93.59375
+        },
+        "direction": "column",
+        "height": "48px",
+        "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "undo": {
+        "rect": {
+          "x": 135,
+          "y": 48,
+          "width": 48,
+          "height": 48,
+          "top": 48,
+          "right": 183,
+          "bottom": 96,
+          "left": 135
+        },
+        "icon": {
+          "x": 149,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 169,
+          "bottom": 74.140625,
+          "left": 149
+        },
+        "caption": {
+          "x": 147.046875,
+          "y": 74.140625,
+          "width": 23.90625,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 170.953125,
+          "bottom": 89.84375,
+          "left": 147.046875
+        },
+        "direction": "column",
+        "height": "48px",
+        "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "redo": {
+        "rect": {
+          "x": 189,
+          "y": 48,
+          "width": 48,
+          "height": 48,
+          "top": 48,
+          "right": 237,
+          "bottom": 96,
+          "left": 189
+        },
+        "icon": {
+          "x": 203,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 223,
+          "bottom": 74.140625,
+          "left": 203
+        },
+        "caption": {
+          "x": 201.046875,
+          "y": 74.140625,
+          "width": 23.90625,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 224.953125,
+          "bottom": 89.84375,
+          "left": 201.046875
+        },
+        "direction": "column",
+        "height": "48px",
+        "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "mask": {
+        "rect": {
+          "x": 243,
+          "y": 48,
+          "width": 72,
+          "height": 48,
+          "top": 48,
+          "right": 315,
+          "bottom": 96,
+          "left": 243
+        },
+        "icon": {
+          "x": 269,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 289,
+          "bottom": 74.140625,
+          "left": 269
+        },
+        "caption": {
+          "x": 251.765625,
+          "y": 74.140625,
+          "width": 54.453125,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 306.21875,
+          "bottom": 89.84375,
+          "left": 251.765625
+        },
+        "direction": "column",
+        "height": "48px",
+        "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "player": {
+        "x": 445.75,
+        "y": 48,
+        "width": 652.5,
+        "height": 48,
+        "top": 48,
+        "right": 1098.25,
+        "bottom": 96,
+        "left": 445.75
+      }
+    },
+    {
+      "width": 1280,
+      "save": {
+        "rect": {
+          "x": 81,
+          "y": 48,
+          "width": 48,
+          "height": 48,
+          "top": 48,
+          "right": 129,
+          "bottom": 96,
+          "left": 81
+        },
+        "icon": {
+          "x": 95,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 115,
+          "bottom": 74.140625,
+          "left": 95
+        },
+        "caption": {
+          "x": 93.59375,
+          "y": 74.140625,
+          "width": 22.796875,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 116.390625,
+          "bottom": 89.84375,
+          "left": 93.59375
+        },
+        "direction": "column",
+        "height": "48px",
+        "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "undo": {
+        "rect": {
+          "x": 135,
+          "y": 48,
+          "width": 48,
+          "height": 48,
+          "top": 48,
+          "right": 183,
+          "bottom": 96,
+          "left": 135
+        },
+        "icon": {
+          "x": 149,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 169,
+          "bottom": 74.140625,
+          "left": 149
+        },
+        "caption": {
+          "x": 147.046875,
+          "y": 74.140625,
+          "width": 23.90625,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 170.953125,
+          "bottom": 89.84375,
+          "left": 147.046875
+        },
+        "direction": "column",
+        "height": "48px",
+        "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "redo": {
+        "rect": {
+          "x": 189,
+          "y": 48,
+          "width": 48,
+          "height": 48,
+          "top": 48,
+          "right": 237,
+          "bottom": 96,
+          "left": 189
+        },
+        "icon": {
+          "x": 203,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 223,
+          "bottom": 74.140625,
+          "left": 203
+        },
+        "caption": {
+          "x": 201.046875,
+          "y": 74.140625,
+          "width": 23.90625,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 224.953125,
+          "bottom": 89.84375,
+          "left": 201.046875
+        },
+        "direction": "column",
+        "height": "48px",
+        "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "mask": {
+        "rect": {
+          "x": 243,
+          "y": 48,
+          "width": 72,
+          "height": 48,
+          "top": 48,
+          "right": 315,
+          "bottom": 96,
+          "left": 243
+        },
+        "icon": {
+          "x": 269,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 289,
+          "bottom": 74.140625,
+          "left": 269
+        },
+        "caption": {
+          "x": 251.765625,
+          "y": 74.140625,
+          "width": 54.453125,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 306.21875,
+          "bottom": 89.84375,
+          "left": 251.765625
+        },
+        "direction": "column",
+        "height": "48px",
+        "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "background": "rgba(0, 0, 0, 0)"
+      },
+      "player": {
+        "x": 318,
+        "y": 48,
+        "width": 652.5,
+        "height": 48,
+        "top": 48,
+        "right": 970.5,
+        "bottom": 96,
+        "left": 318
+      }
+    }
+  ],
+  "keyboard_and_mouse_open": true,
+  "group_help": true,
+  "annotation_and_group_data_unchanged": true,
+  "no_inference_calls": true,
+  "errors": []
+}

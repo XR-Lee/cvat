@@ -1,0 +1,27 @@
+{
+  "shapes": [
+    {
+      "type": "mask",
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 905,
+        "sha256": "3f19ae96a1d0c276521793b2d79476e3534b67ce946f234391d2f8e913a1fb8f",
+        "min": 1,
+        "max": 739,
+        "bbox": [
+          294,
+          169,
+          739,
+          502
+        ]
+      }
+    }
+  ],
+  "states": {
+    "redacted": true,
+    "kind": "geometry",
+    "length": 1,
+    "sha256": "ba54309931d5bbfc57dcc571822cf503fe3eae9d7ee874764413da6bf327a357"
+  }
+}

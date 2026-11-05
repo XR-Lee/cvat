@@ -1,0 +1,45 @@
+metadata:
+  name: pth-facebookresearch-sam2-video-mask
+  namespace: nuclio
+  annotations:
+    name: SAM2 Mask Video Propagation
+    version: 2
+    type: tracker
+    supported_shape_types: mask
+    spec: "[]"
+
+spec:
+  description: Genuine SAM2 temporal-memory mask propagation. Use Run annotation action, not rectangle Tracking. CPU, one object per run, maximum 50 frames. Predictions require review. State expires after 3 idle minutes.
+  runtime: python:3.10
+  handler: main:handler
+  eventTimeout: 180s
+  readinessTimeoutSeconds: 240
+  env:
+    - name: PYTHONPATH
+      value: /opt/nuclio
+    - name: HF_HOME
+      value: /opt/hf
+    - name: HF_HUB_OFFLINE
+      value: "1"
+    - name: MODEL_ID
+      value: facebook/sam2.1-hiera-large
+    - name: TORCH_NUM_THREADS
+      value: "4"
+    - name: SESSION_TTL
+      value: "180"
+  build:
+    image: cvat.pth.facebookresearch.sam2_video_mask
+    baseImage: cvat.pth.facebookresearch.sam2_1_hiera_large:latest
+  triggers:
+    myHttpTrigger:
+      numWorkers: 1
+      kind: http
+      workerAvailabilityTimeoutMilliseconds: 180000
+      attributes:
+        maxRequestBodySize: 67108864
+  platform:
+    attributes:
+      restartPolicy:
+        name: always
+        maximumRetryCount: 3
+      mountMode: volume

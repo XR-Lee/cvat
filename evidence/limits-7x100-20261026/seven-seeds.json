@@ -1,0 +1,121 @@
+[
+  {
+    "type": "mask",
+    "points": {
+      "redacted": true,
+      "kind": "geometry",
+      "length": 747,
+      "sha256": "71e8d35c2d71e45b786395fcce862e523d3f2b01cfb6bc46eae9a7b92e52a23a",
+      "min": 0,
+      "max": 6041,
+      "bbox": [
+        297,
+        108,
+        732,
+        474
+      ]
+    }
+  },
+  {
+    "type": "mask",
+    "points": {
+      "redacted": true,
+      "kind": "geometry",
+      "length": 767,
+      "sha256": "5f0839a1fbc01f5c95916ff505e40a1e5367538220aa38b433c8e250884659d1",
+      "min": 1,
+      "max": 3799,
+      "bbox": [
+        297,
+        108,
+        732,
+        474
+      ]
+    }
+  },
+  {
+    "type": "mask",
+    "points": {
+      "redacted": true,
+      "kind": "geometry",
+      "length": 705,
+      "sha256": "81cb43bf50bcf8630d308c351570a6fc7e4f91aede983360d54dcfee8d7767df",
+      "min": 1,
+      "max": 7550,
+      "bbox": [
+        297,
+        108,
+        732,
+        474
+      ]
+    }
+  },
+  {
+    "type": "mask",
+    "points": {
+      "redacted": true,
+      "kind": "geometry",
+      "length": 681,
+      "sha256": "c0635a7b72744e60de58d490c36fe20c9e6b48a1e06cf4f1b18eb5d7df140b22",
+      "min": 3,
+      "max": 13703,
+      "bbox": [
+        297,
+        108,
+        732,
+        474
+      ]
+    }
+  },
+  {
+    "type": "mask",
+    "points": {
+      "redacted": true,
+      "kind": "geometry",
+      "length": 629,
+      "sha256": "b8458301500af5ac4bb5b4146ca0f76cca7b1d738979a05158e204ff696ab151",
+      "min": 1,
+      "max": 12934,
+      "bbox": [
+        297,
+        108,
+        732,
+        474
+      ]
+    }
+  },
+  {
+    "type": "mask",
+    "points": {
+      "redacted": true,
+      "kind": "geometry",
+      "length": 511,
+      "sha256": "478070f5464eaad1b5644e20717f293e84ee5909de9326afc922e5053f6af6ca",
+      "min": 3,
+      "max": 28461,
+      "bbox": [
+        297,
+        108,
+        732,
+        474
+      ]
+    }
+  },
+  {
+    "type": "mask",
+    "points": {
+      "redacted": true,
+      "kind": "geometry",
+      "length": 535,
+      "sha256": "17e6db185502aed1b99908c0524362e4096c4980c56080339bdb5aee70b44a2e",
+      "min": 1,
+      "max": 29267,
+      "bbox": [
+        297,
+        108,
+        732,
+        474
+      ]
+    }
+  }
+]

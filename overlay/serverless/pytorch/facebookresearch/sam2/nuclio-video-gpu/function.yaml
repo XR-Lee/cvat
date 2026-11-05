@@ -1,0 +1,75 @@
+metadata:
+  name: pth-facebookresearch-sam2-video-mask-gpu
+  namespace: nuclio
+  annotations:
+    name: SAM2 Multi-Mask Video Propagation - GPU
+    version: 2
+    type: tracker
+    supported_shape_types: mask
+    spec: "[]"
+spec:
+  description: CUDA SAM2 video memory for 1-7 independent mask objects. Use Multi-mask tracking button. Cooperative GPU lock; may be busy with research. No CPU fallback. Maximum 100 following frames; default 20.
+  runtime: python:3.10
+  handler: main:handler
+  eventTimeout: 180s
+  readinessTimeoutSeconds: 240
+  env:
+    - name: PYTHONPATH
+      value: /opt/nuclio
+    - name: HF_HOME
+      value: /opt/hf
+    - name: HF_HUB_OFFLINE
+      value: "1"
+    - name: MODEL_ID
+      value: facebook/sam2.1-hiera-large
+    - name: SAM_DEVICE
+      value: cuda
+    - name: GPU_LOCK_PATH
+      value: /gpu-lock
+    # Host driver libraries are linked here at start-up (host_nvidia.py); replaces the
+    # image-bundled 595.71.05 libraries, which broke when the host driver was upgraded.
+    - name: LD_LIBRARY_PATH
+      value: /opt/nvidia-host
+  devices:
+    - /dev/nvidia0:/dev/nvidia0
+    - /dev/nvidiactl:/dev/nvidiactl
+    - /dev/nvidia-uvm:/dev/nvidia-uvm
+  volumes:
+    - volume:
+        name: host-nvidia-lib
+        hostPath:
+          # snap Docker's own /usr is the core base; the host root is exposed at hostfs.
+          path: /var/lib/snapd/hostfs/usr/lib/x86_64-linux-gnu
+      volumeMount:
+        name: host-nvidia-lib
+        mountPath: /host-nvidia-lib
+        readOnly: true
+    - volume:
+        name: gpu-lock
+        hostPath:
+          path: /home/xinrun/p1-full-experiments/data/models/locks/gpu.lock
+      volumeMount:
+        name: gpu-lock
+        mountPath: /gpu-lock
+  build:
+    image: cvat.pth.facebookresearch.sam2_video_mask_gpu
+    baseImage: cvat.sam2-video-cuda:2.9-cu128-595.71.05
+    directives:
+      preCopy:
+        # Must exist before the process starts: glibc caches missing LD_LIBRARY_PATH dirs.
+        - kind: RUN
+          value: mkdir -p /opt/nvidia-host
+  triggers:
+    myHttpTrigger:
+      numWorkers: 1
+      kind: http
+      workerAvailabilityTimeoutMilliseconds: 180000
+      attributes:
+        maxRequestBodySize: 67108864
+        port: 32772
+  platform:
+    attributes:
+      restartPolicy:
+        name: always
+        maximumRetryCount: 3
+      mountMode: volume

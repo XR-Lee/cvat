@@ -1,0 +1,67 @@
+{
+  "shapes": [
+    {
+      "type": "mask",
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 945,
+        "sha256": "8fc3ccfcc29c9d3b72cb76690ff101a9c3bee99c5fdd31d385c7fefbde3eb9a5",
+        "min": 1,
+        "max": 730,
+        "bbox": [
+          291,
+          116,
+          730,
+          478
+        ]
+      }
+    },
+    {
+      "type": "mask",
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 945,
+        "sha256": "8fc3ccfcc29c9d3b72cb76690ff101a9c3bee99c5fdd31d385c7fefbde3eb9a5",
+        "min": 1,
+        "max": 730,
+        "bbox": [
+          291,
+          116,
+          730,
+          478
+        ]
+      }
+    },
+    {
+      "type": "mask",
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 945,
+        "sha256": "8fc3ccfcc29c9d3b72cb76690ff101a9c3bee99c5fdd31d385c7fefbde3eb9a5",
+        "min": 1,
+        "max": 730,
+        "bbox": [
+          291,
+          116,
+          730,
+          478
+        ]
+      }
+    }
+  ],
+  "states": {
+    "redacted": true,
+    "kind": "geometry",
+    "length": 3,
+    "sha256": "1e300a3682bd5d832d196eae7b80394e0bbbc963973c84771cc149b7f4f53099"
+  },
+  "device": "cuda",
+  "objects": [
+    1,
+    2,
+    3
+  ]
+}

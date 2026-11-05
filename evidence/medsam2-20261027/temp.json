@@ -1,0 +1,70 @@
+{
+  "task": 8,
+  "job": 7,
+  "before": {
+    "version": 0,
+    "tags": [],
+    "shapes": [
+      {
+        "id": 1710,
+        "label_id": 54,
+        "type": "mask",
+        "frame": 0,
+        "group": 0,
+        "source": "manual",
+        "score": 1.0,
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 683,
+          "sha256": "726058166eb757d9b0317c5a17cffa7cd42d8054966b3c498b2764ff2cb96f11",
+          "min": 1.0,
+          "max": 470.0,
+          "bbox": [
+            245.0,
+            130.0,
+            344.0,
+            470.0
+          ]
+        },
+        "attributes": [],
+        "elements": []
+      },
+      {
+        "id": 1711,
+        "label_id": 55,
+        "type": "mask",
+        "frame": 0,
+        "group": 0,
+        "source": "manual",
+        "score": 1.0,
+        "occluded": false,
+        "outside": false,
+        "z_order": 0,
+        "rotation": 0.0,
+        "points": {
+          "redacted": true,
+          "kind": "geometry",
+          "length": 1381,
+          "sha256": "b0720011190736f094bb8758aa7438d9ee11418f86557b3628fed2849fd72710",
+          "min": 0.0,
+          "max": 23057.0,
+          "bbox": [
+            283.0,
+            0.0,
+            762.0,
+            521.0
+          ]
+        },
+        "attributes": [],
+        "elements": []
+      }
+    ],
+    "tracks": [],
+    "intervals": []
+  }
+}

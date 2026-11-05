@@ -1,0 +1,6 @@
+# Preserve the released CVAT bundle; load a small plugin via its public API.
+FROM cvat/ui:v2.80.0
+USER root
+COPY mask-video-action.js /usr/share/nginx/html/mask-video-action.js
+RUN sed -i 's@</body>@<script defer src="/mask-video-action.js?v=1"></script></body>@' /usr/share/nginx/html/index.html
+USER 101

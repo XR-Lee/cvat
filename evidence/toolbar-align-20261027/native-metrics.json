@@ -1,0 +1,247 @@
+[
+  {
+    "text": "Menu",
+    "class": "ant-btn css-n0gjrg ant-btn-link ant-dropdown-trigger cvat-annotation-header-menu-button cvat-annotation-header-button",
+    "rect": {
+      "x": 3,
+      "y": 48,
+      "width": 72,
+      "height": 48,
+      "top": 48,
+      "right": 75,
+      "bottom": 96,
+      "left": 3
+    },
+    "display": "flex",
+    "gap": "normal",
+    "padding": "0px",
+    "border": "1px solid rgba(0, 0, 0, 0)",
+    "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+    "html": "<button type=\"button\" class=\"ant-btn css-n0gjrg ant-btn-link ant-dropdown-trigger cvat-annotation-header-menu-button cvat-annotation-header-button\"><span role=\"img\" class=\"anticon\"><svg viewBox=\"0 0 40 40\" width=\"1em\" height=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M5 30h30v-3.333H5V30zm0-8.333h30v-3.334H5v3.334zM5 10v3.333h30V10H5z\" fill-rule=\"evenodd\"></path></svg></span><span>Menu</span></button>",
+    "children": [
+      {
+        "tag": "SPAN",
+        "role": "img",
+        "class": "anticon",
+        "rect": {
+          "x": 29,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 49,
+          "bottom": 74.140625,
+          "left": 29
+        },
+        "font": "20px / 0px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "lineHeight": "0px"
+      },
+      {
+        "tag": "SPAN",
+        "role": null,
+        "class": "",
+        "rect": {
+          "x": 26.484375,
+          "y": 74.140625,
+          "width": 25.015625,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 51.5,
+          "bottom": 89.84375,
+          "left": 26.484375
+        },
+        "font": "10px / 15.7143px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "lineHeight": "15.7143px"
+      }
+    ]
+  },
+  {
+    "text": "Save",
+    "class": "ant-btn css-n0gjrg ant-btn-link cvat-annotation-header-save-button cvat-annotation-header-button",
+    "rect": {
+      "x": 81,
+      "y": 48,
+      "width": 48,
+      "height": 48,
+      "top": 48,
+      "right": 129,
+      "bottom": 96,
+      "left": 81
+    },
+    "display": "flex",
+    "gap": "normal",
+    "padding": "0px",
+    "border": "1px solid rgba(0, 0, 0, 0)",
+    "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+    "html": "<button type=\"button\" class=\"ant-btn css-n0gjrg ant-btn-link cvat-annotation-header-save-button cvat-annotation-header-button\"><span role=\"img\" class=\"anticon\"><svg viewBox=\"0 0 40 40\" width=\"1em\" height=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M29.131 5l5.257 5.257V35H5V5h24.131zm-.866 17.143H10.51v11.633h17.755V22.143zM10.51 6.224H6.224v27.552h3.062V20.918H29.49v12.858h3.673V10.764l-4.539-4.54h-.97v9.796H10.51V6.224zm8.878 20.205a.612.612 0 01.1 1.216l-.1.008h-6.123a.612.612 0 01-.1-1.216l.1-.008h6.123zm2.271.177c.11.116.178.276.178.435a.648.648 0 01-.178.435.644.644 0 01-.435.177.63.63 0 01-.434-.177.64.64 0 01-.178-.435.64.64 0 01.178-.435.641.641 0 01.87 0zm-4.108-2.626a.612.612 0 01.1 1.216l-.1.008h-4.286a.612.612 0 01-.1-1.216l.1-.008h4.286zm8.878-17.756H11.735v8.572h14.694V6.224zM25.51 7.45v6.122h-3.673V7.45h3.673zm-1.224 1.224H23.06v3.674h1.225V8.673z\"></path></svg></span><span>Save</span></button>",
+    "children": [
+      {
+        "tag": "SPAN",
+        "role": "img",
+        "class": "anticon",
+        "rect": {
+          "x": 95,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 115,
+          "bottom": 74.140625,
+          "left": 95
+        },
+        "font": "20px / 0px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "lineHeight": "0px"
+      },
+      {
+        "tag": "SPAN",
+        "role": null,
+        "class": "",
+        "rect": {
+          "x": 93.59375,
+          "y": 74.140625,
+          "width": 22.796875,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 116.390625,
+          "bottom": 89.84375,
+          "left": 93.59375
+        },
+        "font": "10px / 15.7143px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "lineHeight": "15.7143px"
+      }
+    ]
+  },
+  {
+    "text": "Undo",
+    "class": "ant-btn css-n0gjrg ant-btn-link cvat-annotation-header-undo-button cvat-annotation-header-button",
+    "rect": {
+      "x": 135,
+      "y": 48,
+      "width": 48,
+      "height": 48,
+      "top": 48,
+      "right": 183,
+      "bottom": 96,
+      "left": 135
+    },
+    "display": "flex",
+    "gap": "normal",
+    "padding": "0px",
+    "border": "1px solid rgba(0, 0, 0, 0)",
+    "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+    "html": "<button type=\"button\" class=\"ant-btn css-n0gjrg ant-btn-link cvat-annotation-header-undo-button cvat-annotation-header-button\" style=\"pointer-events: none; opacity: 0.5;\"><span role=\"img\" class=\"anticon\"><svg viewBox=\"0 0 40 40\" width=\"1em\" height=\"1em\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"><defs><path id=\"b\" d=\"M0 0h34v24H0z\"></path></defs><g transform=\"translate(3 8)\" fill=\"none\" fill-rule=\"evenodd\"><mask id=\"undoB\" fill=\"#fff\"><use xlink:href=\"#b\"></use></mask><path d=\"M28.62 9.331C20.935.18 8.932-.428 1.308 7.643V2.968H0v6.537c0 .45.293.817.654.817h5.232V8.688H2.35c7.125-7.322 18.2-6.683 24.987 1.8 7.14 8.92 7.14 23.437 0 32.357L28.262 44c7.65-9.557 7.65-25.111 0-34.669z\" fill=\"#000\" mask=\"url(#undoB)\"></path></g></svg></span><span>Undo</span></button>",
+    "children": [
+      {
+        "tag": "SPAN",
+        "role": "img",
+        "class": "anticon",
+        "rect": {
+          "x": 149,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 169,
+          "bottom": 74.140625,
+          "left": 149
+        },
+        "font": "20px / 0px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "lineHeight": "0px"
+      },
+      {
+        "tag": "SPAN",
+        "role": null,
+        "class": "",
+        "rect": {
+          "x": 147.046875,
+          "y": 74.140625,
+          "width": 23.90625,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 170.953125,
+          "bottom": 89.84375,
+          "left": 147.046875
+        },
+        "font": "10px / 15.7143px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "lineHeight": "15.7143px"
+      }
+    ]
+  },
+  {
+    "text": "Redo",
+    "class": "ant-btn css-n0gjrg ant-btn-link cvat-annotation-header-redo-button cvat-annotation-header-button",
+    "rect": {
+      "x": 189,
+      "y": 48,
+      "width": 48,
+      "height": 48,
+      "top": 48,
+      "right": 237,
+      "bottom": 96,
+      "left": 189
+    },
+    "display": "flex",
+    "gap": "normal",
+    "padding": "0px",
+    "border": "1px solid rgba(0, 0, 0, 0)",
+    "font": "14px / 22px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+    "html": "<button type=\"button\" class=\"ant-btn css-n0gjrg ant-btn-link cvat-annotation-header-redo-button cvat-annotation-header-button\" style=\"pointer-events: none; opacity: 0.5;\"><span role=\"img\" class=\"anticon\"><svg viewBox=\"0 0 40 40\" width=\"1em\" height=\"1em\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"><defs><path id=\"redoA\" d=\"M0 0h34v24H0z\"></path></defs><g transform=\"translate(3 8)\" fill=\"none\" fill-rule=\"evenodd\"><mask id=\"redoB\" fill=\"#fff\"><use xlink:href=\"#redoA\"></use></mask><path d=\"M28.262 9.331C20.935.18 8.932-.428 1.308 7.643V2.968H0v6.537c0 .45.293.817.654.817h5.232V8.688H2.35c7.125-7.322 18.2-6.683 24.987 1.8 7.14 8.92 7.14 23.437 0 32.357L28.262 44c7.65-9.557 7.65-25.111 0-34.669z\" fill=\"#000\" mask=\"url(#redoB)\" transform=\"matrix(-1 0 0 1 34 0)\"></path></g></svg></span><span>Redo</span></button>",
+    "children": [
+      {
+        "tag": "SPAN",
+        "role": "img",
+        "class": "anticon",
+        "rect": {
+          "x": 203,
+          "y": 54.140625,
+          "width": 20,
+          "height": 20,
+          "top": 54.140625,
+          "right": 223,
+          "bottom": 74.140625,
+          "left": 203
+        },
+        "font": "20px / 0px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "lineHeight": "0px"
+      },
+      {
+        "tag": "SPAN",
+        "role": null,
+        "class": "",
+        "rect": {
+          "x": 201.046875,
+          "y": 74.140625,
+          "width": 23.90625,
+          "height": 15.703125,
+          "top": 74.140625,
+          "right": 224.953125,
+          "bottom": 89.84375,
+          "left": 201.046875
+        },
+        "font": "10px / 15.7143px -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+        "lineHeight": "15.7143px"
+      }
+    ]
+  },
+  {
+    "text": "多 Mask 跟踪 · GPU",
+    "class": "ant-btn ant-btn-default",
+    "rect": {
+      "x": 248,
+      "y": 48,
+      "width": 122.015625,
+      "height": 34,
+      "top": 48,
+      "right": 370.015625,
+      "bottom": 82,
+      "left": 248
+    },
+    "display": "block",
+    "gap": "normal",
+    "padding": "1px 6px",
+    "border": "1px solid rgb(145, 202, 255)",
+    "font": "12px Arial",
+    "html": "<button type=\"button\" id=\"cvat-multi-mask-gpu-button\" class=\"ant-btn ant-btn-default\" title=\"Select 1–7 saved Masks from the current frame and propagate with SAM2 CUDA\" style=\"margin: 0px 8px; font-size: 12px; height: 34px; color: rgb(9, 88, 217); border: 1px solid rgb(145, 202, 255); border-radius: 6px; background: rgb(230, 244, 255); cursor: pointer; white-space: nowrap;\">多 Mask 跟踪 · GPU</button>",
+    "children": []
+  }
+]

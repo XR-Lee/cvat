@@ -1,0 +1,57 @@
+{
+  "url": "http://127.0.0.1:18080/api/tasks/2",
+  "id": 2,
+  "name": "Endoscopic Discectomy",
+  "project_id": null,
+  "project_name": null,
+  "owner": {
+    "url": "http://127.0.0.1:18080/api/users/1",
+    "id": 1,
+    "username": "cvatadmin",
+    "first_name": "",
+    "last_name": ""
+  },
+  "assignee": null,
+  "bug_tracker": "",
+  "created_date": "2026-10-22T14:36:49.637868Z",
+  "updated_date": "2026-10-22T16:26:45.219638Z",
+  "overlap": 0,
+  "segment_size": 13632,
+  "initial_replicas": 0,
+  "status": "annotation",
+  "data_chunk_size": 72,
+  "data_original_chunk_type": "video",
+  "data_compressed_chunk_type": "imageset",
+  "data_cloud_storage_id": null,
+  "guide_id": 1,
+  "size": 13632,
+  "image_quality": 70,
+  "data": 1,
+  "dimension": "2d",
+  "mode": "interpolation",
+  "media_type": "image",
+  "subset": "",
+  "organization_id": null,
+  "organization": null,
+  "target_storage": {
+    "id": 2,
+    "location": "local",
+    "cloud_storage_id": null
+  },
+  "source_storage": {
+    "id": 1,
+    "location": "local",
+    "cloud_storage_id": null
+  },
+  "jobs": {
+    "count": 1,
+    "completed": 0,
+    "validation": 0,
+    "url": "http://127.0.0.1:18080/api/jobs?task_id=2"
+  },
+  "labels": {
+    "url": "http://127.0.0.1:18080/api/labels?task_id=2"
+  },
+  "assignee_updated_date": null,
+  "validation_mode": null
+}

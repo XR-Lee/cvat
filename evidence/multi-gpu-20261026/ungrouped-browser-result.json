@@ -1,0 +1,90 @@
+{
+  "message": "完成，结果已放入编辑器，请逐帧检查后 Save。\n",
+  "staged": {
+    "shapes": [
+      {
+        "id": 41,
+        "frame": 0,
+        "group": 1,
+        "label": 50,
+        "type": "mask"
+      },
+      {
+        "id": 42,
+        "frame": 0,
+        "group": 2,
+        "label": 50,
+        "type": "mask"
+      },
+      {
+        "id": 43,
+        "frame": 0,
+        "group": 3,
+        "label": 51,
+        "type": "mask"
+      },
+      {
+        "frame": 1,
+        "group": 1,
+        "label": 50,
+        "type": "mask"
+      },
+      {
+        "frame": 1,
+        "group": 2,
+        "label": 50,
+        "type": "mask"
+      },
+      {
+        "frame": 1,
+        "group": 3,
+        "label": 51,
+        "type": "mask"
+      },
+      {
+        "frame": 2,
+        "group": 1,
+        "label": 50,
+        "type": "mask"
+      },
+      {
+        "frame": 2,
+        "group": 2,
+        "label": 50,
+        "type": "mask"
+      },
+      {
+        "frame": 2,
+        "group": 3,
+        "label": 51,
+        "type": "mask"
+      },
+      {
+        "frame": 3,
+        "group": 1,
+        "label": 50,
+        "type": "mask"
+      },
+      {
+        "frame": 3,
+        "group": 2,
+        "label": 50,
+        "type": "mask"
+      },
+      {
+        "frame": 3,
+        "group": 3,
+        "label": 51,
+        "type": "mask"
+      }
+    ],
+    "unsaved": true
+  },
+  "saved_count": 12,
+  "counts": {
+    "1": 4,
+    "2": 4,
+    "3": 4
+  },
+  "errors": []
+}

@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "task_level_models": [
+    "Grounding DINO + SAM 2.1 - Masks (Experimental)",
+    "Grounding DINO + MedSAM2 - Masks (Experimental, Research)"
+  ],
+  "job_level_models": [
+    "Grounding DINO + SAM 2.1 - Masks (Experimental)",
+    "Grounding DINO + MedSAM2 - Masks (Experimental, Research)"
+  ],
+  "auto_labeling_masks": 2,
+  "saved": 2,
+  "detector_calls": [
+    "pth-medsam2-auto"
+  ],
+  "task2_writes": 0,
+  "errors": []
+}

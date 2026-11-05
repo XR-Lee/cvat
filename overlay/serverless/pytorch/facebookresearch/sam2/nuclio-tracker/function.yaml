@@ -1,0 +1,45 @@
+metadata:
+  name: pth-facebookresearch-sam2-1-hiera-large-tracker
+  namespace: nuclio
+  annotations:
+    name: SAM 2.1 Tracker
+    version: 2
+    type: tracker
+    supported_shape_types: rectangle
+    spec: ""
+
+spec:
+  description: Track an object across video frames with Meta SAM 2.1 Hiera Large. CVAT's tracker stores the mask's bounding box.
+  runtime: python:3.10
+  handler: main:handler
+  eventTimeout: 180s
+  readinessTimeoutSeconds: 240
+  env:
+    - name: PYTHONPATH
+      value: /opt/nuclio
+    - name: HF_HOME
+      value: /opt/hf
+    - name: HF_HUB_DISABLE_XET
+      value: "1"
+    - name: MODEL_ID
+      value: facebook/sam2.1-hiera-large
+
+  build:
+    image: cvat.pth.facebookresearch.sam2_1_hiera_large.tracker
+    baseImage: cvat.pth.facebookresearch.sam2_1_hiera_large:latest
+
+  triggers:
+    myHttpTrigger:
+      numWorkers: 1
+      kind: http
+      workerAvailabilityTimeoutMilliseconds: 240000
+      attributes:
+        maxRequestBodySize: 67108864
+        port: 32770
+
+  platform:
+    attributes:
+      restartPolicy:
+        name: always
+        maximumRetryCount: 3
+      mountMode: volume

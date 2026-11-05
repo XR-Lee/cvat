@@ -1,0 +1,24 @@
+{
+  "task": 3,
+  "status": {
+    "id": "action=autoannotate&target=task&target_id=3",
+    "function": {
+      "id": "pth-facebookresearch-sam2-1-hiera-large-auto",
+      "task": 3,
+      "threshold": 0.25
+    },
+    "status": "finished",
+    "progress": 100,
+    "enqueued": "2026-10-24T21:22:11.210068Z",
+    "started": "2026-10-24T21:22:11.220479Z",
+    "ended": "2026-10-24T21:22:22.203488Z",
+    "exc_info": null
+  },
+  "seconds": 12.04,
+  "shapes": 3,
+  "label_ids": [
+    25,
+    29,
+    25
+  ]
+}

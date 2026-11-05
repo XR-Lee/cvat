@@ -1,0 +1,64 @@
+{
+  "version": 0,
+  "tags": [],
+  "shapes": [
+    {
+      "type": "polygon",
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 36,
+        "sha256": "a4ce341ba70f257d0eea6b868b7d12933772853613235ced039fac621aaa271f",
+        "min": 0.0,
+        "max": 769.0,
+        "bbox": [
+          669.0,
+          53.0,
+          581.0,
+          9.0
+        ]
+      },
+      "id": null,
+      "label_id": 11,
+      "group": 0,
+      "source": "auto",
+      "frame": 0,
+      "attributes": [],
+      "score": 1
+    },
+    {
+      "type": "polygon",
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 58,
+        "sha256": "25bce7d8682ebca47d8fa2f06be9551f5151a862321d76c1c1fd6f96ebfee5f6",
+        "min": 108.0,
+        "max": 732.0,
+        "bbox": [
+          312.0,
+          110.0,
+          304.0,
+          127.0
+        ]
+      },
+      "id": null,
+      "label_id": 11,
+      "group": 0,
+      "source": "auto",
+      "frame": 0,
+      "attributes": [],
+      "score": 1
+    }
+  ],
+  "tracks": [],
+  "intervals": []
+}

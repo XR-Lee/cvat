@@ -1,0 +1,63 @@
+{
+  "shapes": [
+    {
+      "type": "mask",
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 913,
+        "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+        "min": 0.0,
+        "max": 872.0,
+        "bbox": [
+          297.0,
+          108.0,
+          732.0,
+          474.0
+        ]
+      }
+    },
+    {
+      "type": "mask",
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 913,
+        "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+        "min": 0.0,
+        "max": 872.0,
+        "bbox": [
+          297.0,
+          108.0,
+          732.0,
+          474.0
+        ]
+      }
+    },
+    {
+      "type": "mask",
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 913,
+        "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+        "min": 0.0,
+        "max": 872.0,
+        "bbox": [
+          297.0,
+          108.0,
+          732.0,
+          474.0
+        ]
+      }
+    }
+  ],
+  "states": {
+    "redacted": true,
+    "kind": "geometry",
+    "length": 3,
+    "sha256": "9a4c7ee172288fa3848417c60e320fa82de01d07066cd25e3ca5351e752ff90b"
+  },
+  "device": "cuda",
+  "objects": []
+}

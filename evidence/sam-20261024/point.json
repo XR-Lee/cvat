@@ -1,0 +1,26 @@
+{
+  "shapes": [
+    {
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 1073,
+        "sha256": "a11b2924a872bf3a3cbbc81a8c75d19b3c2ee6cf064a785e8ba151ac0460119c",
+        "min": 0,
+        "max": 4732,
+        "bbox": [
+          245,
+          0,
+          770,
+          529
+        ]
+      },
+      "group": 0,
+      "source": "semi-auto",
+      "attributes": [],
+      "occluded": false,
+      "rotation": 0,
+      "type": "mask"
+    }
+  ]
+}

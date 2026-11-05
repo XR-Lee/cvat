@@ -1,0 +1,67 @@
+{
+  "shapes": [
+    {
+      "type": "mask",
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 885,
+        "sha256": "7ac75938a3ed3aef4db5c741bb00b42b88ba09093b953b9282f947dada59fe86",
+        "min": 1,
+        "max": 729,
+        "bbox": [
+          290,
+          120,
+          729,
+          472
+        ]
+      }
+    },
+    {
+      "type": "mask",
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 885,
+        "sha256": "7ac75938a3ed3aef4db5c741bb00b42b88ba09093b953b9282f947dada59fe86",
+        "min": 1,
+        "max": 729,
+        "bbox": [
+          290,
+          120,
+          729,
+          472
+        ]
+      }
+    },
+    {
+      "type": "mask",
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 885,
+        "sha256": "7ac75938a3ed3aef4db5c741bb00b42b88ba09093b953b9282f947dada59fe86",
+        "min": 1,
+        "max": 729,
+        "bbox": [
+          290,
+          120,
+          729,
+          472
+        ]
+      }
+    }
+  ],
+  "states": {
+    "redacted": true,
+    "kind": "geometry",
+    "length": 3,
+    "sha256": "617d6657d90f9b3fadcfe8583c113b973b084397758af3a5f157bacb4ee42847"
+  },
+  "device": "cuda",
+  "objects": [
+    1,
+    2,
+    3
+  ]
+}

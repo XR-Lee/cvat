@@ -1,0 +1,72 @@
+metadata:
+  name: pth-medsam2-auto
+  namespace: nuclio
+  annotations:
+    name: Grounding DINO + MedSAM2 - Masks (Experimental, Research)
+    version: 2
+    type: detector
+    spec: |
+      [
+        { "id": 1, "name": "神经根", "type": "mask" },
+        { "id": 2, "name": "硬膜囊", "type": "mask" },
+        { "id": 3, "name": "黄韧带", "type": "mask" },
+        { "id": 4, "name": "纤维环", "type": "mask" },
+        { "id": 5, "name": "髓核", "type": "mask" },
+        { "id": 6, "name": "椎板", "type": "mask" },
+        { "id": 7, "name": "关节突", "type": "mask" },
+        { "id": 8, "name": "硬膜外脂肪", "type": "mask" },
+        { "id": 9, "name": "血管", "type": "mask" },
+        { "id": 10, "name": "抓钳", "type": "mask" },
+        { "id": 11, "name": "双极电凝", "type": "mask" },
+        { "id": 12, "name": "磨钻", "type": "mask" },
+        { "id": 13, "name": "咬骨钳", "type": "mask" },
+        { "id": 14, "name": "神经探钩", "type": "mask" }
+      ]
+
+spec:
+  description: Experimental. Same Grounding DINO detections (labels, scores, boxes) as the SAM 2.1 detector; each box is segmented by MedSAM2_latest (bowang-lab/MedSAM2 332f30d) instead of SAM 2.1. MedSAM2 does not read label text. Weights licensed for research and education only. CPU. Keep Convert masks to polygons off; predictions require review.
+  runtime: python:3.10
+  handler: main:handler
+  eventTimeout: 600s
+  readinessTimeoutSeconds: 240
+  env:
+    - name: PYTHONPATH
+      value: /opt/nuclio:/opt/medsam2
+    - name: MEDSAM2_ROOT
+      value: /opt/medsam2
+    - name: HF_HOME
+      value: /opt/hf
+    - name: HF_HUB_OFFLINE
+      value: "1"
+    - name: DINO_ID
+      value: IDEA-Research/grounding-dino-tiny
+    # Same revision as the SAM 2.1 detector's cached snapshot, so detections are identical.
+    - name: DINO_REVISION
+      value: a2bb814dd30d776dcf7e30523b00659f4f141c71
+    - name: TORCH_NUM_THREADS
+      value: "10"
+  build:
+    image: cvat.pth.medsam2_auto
+    baseImage: cvat.medsam2-cuda:332f30d
+    directives:
+      preCopy:
+        - kind: ENV
+          value: HF_HOME=/opt/hf
+        - kind: ENV
+          value: HF_HUB_DISABLE_XET=1
+        - kind: RUN
+          value: python3 -c "from huggingface_hub import snapshot_download; snapshot_download('IDEA-Research/grounding-dino-tiny', revision='a2bb814dd30d776dcf7e30523b00659f4f141c71', allow_patterns=['*.json','*.safetensors','*.txt','*.model'])"
+  triggers:
+    myHttpTrigger:
+      numWorkers: 1
+      kind: http
+      workerAvailabilityTimeoutMilliseconds: 240000
+      attributes:
+        maxRequestBodySize: 67108864
+        port: 32776
+  platform:
+    attributes:
+      restartPolicy:
+        name: always
+        maximumRetryCount: 3
+      mountMode: volume

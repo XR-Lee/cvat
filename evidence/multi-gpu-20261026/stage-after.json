@@ -1,0 +1,356 @@
+{
+  "version": 0,
+  "tags": [],
+  "shapes": [
+    {
+      "id": 41,
+      "label_id": 50,
+      "type": "mask",
+      "frame": 0,
+      "group": 1,
+      "source": "manual",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 913,
+        "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+        "min": 0.0,
+        "max": 872.0,
+        "bbox": [
+          297.0,
+          108.0,
+          732.0,
+          474.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 42,
+      "label_id": 50,
+      "type": "mask",
+      "frame": 0,
+      "group": 2,
+      "source": "manual",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 913,
+        "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+        "min": 0.0,
+        "max": 872.0,
+        "bbox": [
+          297.0,
+          108.0,
+          732.0,
+          474.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 43,
+      "label_id": 51,
+      "type": "mask",
+      "frame": 0,
+      "group": 3,
+      "source": "manual",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 913,
+        "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+        "min": 0.0,
+        "max": 872.0,
+        "bbox": [
+          297.0,
+          108.0,
+          732.0,
+          474.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 47,
+      "label_id": 51,
+      "type": "mask",
+      "frame": 1,
+      "group": 3,
+      "source": "semi-auto",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 945,
+        "sha256": "3b563b08f00c696f064ef63006e6cf3b2410c33a80e5600cfd1883674d349007",
+        "min": 1.0,
+        "max": 730.0,
+        "bbox": [
+          291.0,
+          116.0,
+          730.0,
+          478.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 45,
+      "label_id": 50,
+      "type": "mask",
+      "frame": 1,
+      "group": 1,
+      "source": "semi-auto",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 945,
+        "sha256": "3b563b08f00c696f064ef63006e6cf3b2410c33a80e5600cfd1883674d349007",
+        "min": 1.0,
+        "max": 730.0,
+        "bbox": [
+          291.0,
+          116.0,
+          730.0,
+          478.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 46,
+      "label_id": 50,
+      "type": "mask",
+      "frame": 1,
+      "group": 2,
+      "source": "semi-auto",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 945,
+        "sha256": "3b563b08f00c696f064ef63006e6cf3b2410c33a80e5600cfd1883674d349007",
+        "min": 1.0,
+        "max": 730.0,
+        "bbox": [
+          291.0,
+          116.0,
+          730.0,
+          478.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 44,
+      "label_id": 50,
+      "type": "mask",
+      "frame": 2,
+      "group": 1,
+      "source": "manual",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 913,
+        "sha256": "6ad5886879eed57f3fc582e3c08bd6c6ed4cb1a3bcb76a9fc3ca363c73c8eb85",
+        "min": 0.0,
+        "max": 872.0,
+        "bbox": [
+          297.0,
+          108.0,
+          732.0,
+          474.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 48,
+      "label_id": 50,
+      "type": "mask",
+      "frame": 2,
+      "group": 2,
+      "source": "semi-auto",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 885,
+        "sha256": "54b8a3ef746e1c2d62a53459c633f415b019a02fb64902513a9afdfe9444990c",
+        "min": 1.0,
+        "max": 729.0,
+        "bbox": [
+          290.0,
+          120.0,
+          729.0,
+          472.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 49,
+      "label_id": 51,
+      "type": "mask",
+      "frame": 2,
+      "group": 3,
+      "source": "semi-auto",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 885,
+        "sha256": "54b8a3ef746e1c2d62a53459c633f415b019a02fb64902513a9afdfe9444990c",
+        "min": 1.0,
+        "max": 729.0,
+        "bbox": [
+          290.0,
+          120.0,
+          729.0,
+          472.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 50,
+      "label_id": 50,
+      "type": "mask",
+      "frame": 3,
+      "group": 1,
+      "source": "semi-auto",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 883,
+        "sha256": "64b4a223d7c74855eb87352dea15af16de539c570806d1bd1b7308f9091d8933",
+        "min": 1.0,
+        "max": 729.0,
+        "bbox": [
+          291.0,
+          120.0,
+          729.0,
+          473.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 51,
+      "label_id": 50,
+      "type": "mask",
+      "frame": 3,
+      "group": 2,
+      "source": "semi-auto",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 883,
+        "sha256": "64b4a223d7c74855eb87352dea15af16de539c570806d1bd1b7308f9091d8933",
+        "min": 1.0,
+        "max": 729.0,
+        "bbox": [
+          291.0,
+          120.0,
+          729.0,
+          473.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 52,
+      "label_id": 51,
+      "type": "mask",
+      "frame": 3,
+      "group": 3,
+      "source": "semi-auto",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 883,
+        "sha256": "64b4a223d7c74855eb87352dea15af16de539c570806d1bd1b7308f9091d8933",
+        "min": 1.0,
+        "max": 729.0,
+        "bbox": [
+          291.0,
+          120.0,
+          729.0,
+          473.0
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    }
+  ],
+  "tracks": [],
+  "intervals": []
+}

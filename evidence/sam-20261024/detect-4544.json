@@ -1,0 +1,92 @@
+{
+  "version": 0,
+  "tags": [],
+  "shapes": [
+    {
+      "type": "polygon",
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 36,
+        "sha256": "8523cb04d1fb466b4b374e43d106819e1bba893adda4761c0e5aabe5d2f48167",
+        "min": 0.0,
+        "max": 770.0,
+        "bbox": [
+          708.0,
+          92.0,
+          636.0,
+          32.0
+        ]
+      },
+      "id": null,
+      "label_id": 11,
+      "group": 0,
+      "source": "auto",
+      "frame": 4544,
+      "attributes": [],
+      "score": 1
+    },
+    {
+      "type": "polygon",
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 36,
+        "sha256": "e3930c751db1e117a8e83296c051f476f91d7f517fc3e54bf726c670158ce9fd",
+        "min": 0.0,
+        "max": 770.0,
+        "bbox": [
+          669.0,
+          54.0,
+          578.0,
+          9.0
+        ]
+      },
+      "id": null,
+      "label_id": 15,
+      "group": 0,
+      "source": "auto",
+      "frame": 4544,
+      "attributes": [],
+      "score": 1
+    },
+    {
+      "type": "polygon",
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 36,
+        "sha256": "dcf90905e6d1d31b6bb8531030c6079f0da88ace332ace116ef7069e73d2c7a1",
+        "min": 0.0,
+        "max": 770.0,
+        "bbox": [
+          708.0,
+          92.0,
+          636.0,
+          32.0
+        ]
+      },
+      "id": null,
+      "label_id": 11,
+      "group": 0,
+      "source": "auto",
+      "frame": 4544,
+      "attributes": [],
+      "score": 1
+    }
+  ],
+  "tracks": [],
+  "intervals": []
+}

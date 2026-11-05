@@ -1,0 +1,132 @@
+{
+  "shapes": [
+    {
+      "id": 1,
+      "label_id": 11,
+      "type": "mask",
+      "frame": 0,
+      "group": 0,
+      "source": "auto",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 913,
+        "sha256": "efe404ab1721b27cf5a9604dbcd6391d4ff41d9d48dcbcedf85521f56dba1b0c",
+        "min": 0,
+        "max": 872,
+        "bbox": [
+          297,
+          108,
+          732,
+          474
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 2,
+      "label_id": 11,
+      "type": "mask",
+      "frame": 80,
+      "group": 0,
+      "source": "auto",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 1105,
+        "sha256": "76d0826c526d424588c8ab33b382c04d3170a9b7e49aff1684f7fb3dae03cc8b",
+        "min": 0,
+        "max": 771,
+        "bbox": [
+          246,
+          0,
+          771,
+          530
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "id": 3,
+      "label_id": 11,
+      "type": "mask",
+      "frame": 80,
+      "group": 0,
+      "source": "auto",
+      "score": 1.0,
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 1105,
+        "sha256": "04e214b232ed1d212d95338f77c0b2b9a162cb7fd07915d5b7d7857b7a0b97e1",
+        "min": 0,
+        "max": 771,
+        "bbox": [
+          246,
+          0,
+          771,
+          530
+        ]
+      },
+      "attributes": [],
+      "elements": []
+    }
+  ],
+  "stats": [
+    {
+      "id": 1,
+      "frame": 0,
+      "label_id": 11,
+      "foreground_pixels": 121747,
+      "bbox": [
+        297,
+        108,
+        732,
+        474
+      ],
+      "bitmap_sha256": "270af63633dacd5411660cdff1b04c305a789d6beaa402eec4a84caf50deb081"
+    },
+    {
+      "id": 2,
+      "frame": 80,
+      "label_id": 11,
+      "foreground_pixels": 214659,
+      "bbox": [
+        246,
+        0,
+        771,
+        530
+      ],
+      "bitmap_sha256": "6a4a81f11710ed0ae35434b21eb2aac836b61a5a8ad40c908f73c315240d8a70"
+    },
+    {
+      "id": 3,
+      "frame": 80,
+      "label_id": 11,
+      "foreground_pixels": 214692,
+      "bbox": [
+        246,
+        0,
+        771,
+        530
+      ],
+      "bitmap_sha256": "2262ad51163306b5cc2aa6a9409c8eed0a93b60a57f17fdb192d3f5c13781dcd"
+    }
+  ]
+}
