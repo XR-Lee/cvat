@@ -1,6 +1,6 @@
 # SAM2 Mask Video Propagation for this CVAT Community deployment
 
-**Update:** Multi-object CUDA propagation is now deployed via the top-toolbar **Mask · GPU** icon button (tooltip: **多 Mask 跟踪 · GPU**). See [GPU-MULTI.md](GPU-MULTI.md) for the current GPU workflow, runtime, protection policy and verification. The single-object CPU action described below remains available as a fallback; the live UI image is now `cvat/ui:sam2-multi-gpu-v3-toolbar`. The GPU action supports up to 7 Masks and 100 following frames, with the default still 20.
+**Update:** Multi-object CUDA propagation is now deployed via the top-toolbar **Mask · GPU** icon button (tooltip: **多 Mask 跟踪 · GPU**). See [GPU-MULTI.md](GPU-MULTI.md) for the current GPU workflow, runtime, protection policy and verification. The single-object CPU action described below remains available as a fallback; the live UI image is now `cvat/ui:sam2-multi-gpu-v5-polygon`. The GPU action supports up to 7 Masks or Polygons and 100 following frames, default 20; output is saved as Masks.
 
 ## Single-mask CPU workflow
 

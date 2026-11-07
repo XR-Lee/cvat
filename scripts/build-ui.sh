@@ -2,7 +2,7 @@
 # Build the two custom CVAT UI images.
 #
 #   cvat/ui:sam2-video-v1                base bundle + mask-video-action.js
-#   cvat/ui:sam2-multi-gpu-v4-medsam2    that + multi-mask-gpu.js  (used in production)
+#   cvat/ui:sam2-multi-gpu-v5-polygon   that + multi-mask-gpu.js  (used in production)
 #
 # Both are plain "preserve the released bundle, inject a plugin <script>" images:
 # the upstream bundle is never rebuilt, only a small JS file is added to the
@@ -14,7 +14,7 @@ SRC="${CVAT_SRC:-$ROOT/cvat}"
 CTX="$SRC/components/sam2-video"
 
 BASE_TAG="${BASE_TAG:-cvat/ui:sam2-video-v1}"
-FINAL_TAG="${FINAL_TAG:-cvat/ui:sam2-multi-gpu-v4-medsam2}"
+FINAL_TAG="${FINAL_TAG:-cvat/ui:sam2-multi-gpu-v5-polygon}"
 UPSTREAM_UI="${UPSTREAM_UI:-cvat/ui:v2.80.0}"
 
 [ -d "$CTX" ] || { echo "missing build context: $CTX (run scripts/apply-overlay.sh first)" >&2; exit 1; }

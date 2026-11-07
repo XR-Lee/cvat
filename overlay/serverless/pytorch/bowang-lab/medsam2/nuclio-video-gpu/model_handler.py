@@ -20,6 +20,7 @@ import time
 
 import numpy as np
 import torch
+from PIL import Image, ImageDraw
 
 sys.path.insert(0, os.environ.get('MEDSAM2_ROOT', '/opt/medsam2'))
 from sam2.build_sam import build_sam2_video_predictor  # noqa: E402
@@ -27,6 +28,7 @@ from sam2.build_sam import build_sam2_video_predictor  # noqa: E402
 MAX_OBJECTS = 7
 MAX_STEPS = 100
 MAX_PIXELS = 4096 * 4096
+SUPPORTED_SEED_TYPES = ('mask', 'polygon')
 CONFIG = 'configs/sam2.1_hiera_t512.yaml'
 IMG_MEAN = torch.tensor((0.485, 0.456, 0.406), dtype=torch.float32)[:, None, None]
 IMG_STD = torch.tensor((0.229, 0.224, 0.225), dtype=torch.float32)[:, None, None]
@@ -63,6 +65,44 @@ def encode_mask(bitmap):
     if flat[0]:
         counts.insert(0, 0)
     return counts + [x1, y1, x2, y2]
+
+
+def decode_polygon(points, width, height):
+    """Rasterize a CVAT polygon (x1, y1, x2, y2, ...) into a frame-sized bitmap.
+
+    Masks produced by the SAM interactor with "Convert masks to polygons" on,
+    or any drawn/imported polygon, are geometrically equivalent seeds for video
+    propagation; they differ only in storage format.
+    """
+    if not isinstance(points, list) or len(points) < 6 or len(points) % 2:
+        raise ValueError('A polygon needs at least 3 x/y coordinate pairs')
+    if len(points) > 2 * MAX_PIXELS:
+        raise ValueError('Polygon has too many points')
+    if any(isinstance(v, bool) or not isinstance(v, (int, float)) or not np.isfinite(v) for v in points):
+        raise ValueError('Polygon coordinates must be finite numbers')
+    if width * height > MAX_PIXELS:
+        raise ValueError('Frame exceeds the supported pixel limit')
+    pairs = [(min(max(float(points[i]), 0.0), width - 1.0),
+              min(max(float(points[i + 1]), 0.0), height - 1.0))
+             for i in range(0, len(points), 2)]
+    if len(set(pairs)) < 3:
+        raise ValueError('Polygon has fewer than 3 distinct vertices')
+    canvas = Image.new('1', (width, height), 0)
+    ImageDraw.Draw(canvas).polygon(pairs, fill=1)
+    bitmap = np.asarray(canvas, dtype=bool)
+    if not bitmap.any():
+        raise ValueError('Polygon encloses no pixels')
+    return bitmap
+
+
+def shape_bitmap(shape, width, height):
+    """Seed bitmap for a CVAT shape, whatever its storage type."""
+    kind = shape.get('type')
+    if kind == 'mask':
+        return decode_mask(shape.get('points'), width, height)
+    if kind == 'polygon':
+        return decode_polygon(shape.get('points'), width, height)
+    raise ValueError(f'Unsupported seed shape type {kind!r}; use a mask or polygon')
 
 
 def preprocess(image, size, device):
@@ -209,12 +249,12 @@ class ModelHandler:
             if not states:
                 if not 1 <= len(shapes) <= MAX_OBJECTS:
                     raise ValueError(f'Select 1–{MAX_OBJECTS} saved masks')
-                if any(not isinstance(s, dict) or s.get('type') != 'mask' for s in shapes):
-                    raise ValueError('Only masks are supported')
+                if any(not isinstance(s, dict) or s.get('type') not in SUPPORTED_SEED_TYPES for s in shapes):
+                    raise ValueError('Select mask or polygon seeds')
                 planned = shapes[0].get('frames', MAX_STEPS)
                 if type(planned) is not int or not 1 <= planned <= MAX_STEPS or any(s.get('frames', MAX_STEPS) != planned for s in shapes):
                     raise ValueError(f'Planned frames must be one integer in 1–{MAX_STEPS}')
-                bitmaps = [decode_mask(s.get('points'), *image.size) for s in shapes]
+                bitmaps = [shape_bitmap(s, *image.size) for s in shapes]
                 if self.item:
                     raise ValueError('GPU video tracker is serving another session; retry later')
                 self._acquire_gpu()
@@ -226,7 +266,8 @@ class ModelHandler:
                     self.item = {'sid': sid, 'state': state, 'generator': generator, 'step': 0,
                                  'planned': planned, 'size': image.size, 'count': len(shapes),
                                  'touched': time.monotonic(), 'last': None}
-                    return {'shapes': [{'type': 'mask', 'points': s['points']} for s in shapes],
+                    # Echo the rasterized seed (identical bytes for mask seeds, RLE for polygons).
+                    return {'shapes': [{'type': 'mask', 'points': encode_mask(b)} for b in bitmaps],
                             'states': self._states(sid, 0, len(shapes)), 'device': 'cuda',
                             'model': 'MedSAM2_latest', 'objects': list(range(1, len(shapes) + 1))}
                 except Exception:

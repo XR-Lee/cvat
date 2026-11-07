@@ -81,6 +81,23 @@ class Tests(unittest.TestCase):
         released = h2.track(b'raw', image, [{'type': 'mask', 'points': []}] * 2, nxt['states'])
         self.assertIsNone(h2.item); self.assertEqual(released['shapes'], [None, None])
 
+    def test_polygon_seeds(self):
+        h = self.handler(); image = Image.new('RGB', (8, 8))
+        polygon = [1, 1, 6, 1, 6, 6, 1, 6]
+        expected = np.zeros((8, 8), bool); expected[1:7, 1:7] = True
+        np.testing.assert_array_equal(m.decode_polygon(polygon, 8, 8), expected)
+        init = self.run_cuda_free(lambda: h.track(b'raw', image, [{'type': 'polygon', 'points': polygon, 'frames': 3}], []))
+        self.assertEqual(init['shapes'], [{'type': 'mask', 'points': m.encode_mask(expected)}])
+        self.assertEqual(h.started, [(1, 4)])
+        out = self.run_cuda_free(lambda: h.track(b'raw', image, [], init['states']))
+        self.assertEqual(len(out['shapes']), 1)
+        h.track(b'raw', image, [{'type': 'mask', 'points': []}], out['states'])
+        for points in ([0, 0, 1, 1], [0, 0, 1, 1, 2, 2, 3], [0, 0, 1, 1, float('nan'), 2], [5, 5, 5, 5, 5, 5]):
+            with self.subTest(points=points), self.assertRaises(ValueError):
+                m.decode_polygon(points, 8, 8)
+        with self.assertRaisesRegex(ValueError, 'mask or polygon'):
+            self.handler().track(b'raw', image, [{'type': 'rectangle', 'points': [0, 0, 4, 4]}], [])
+
     def test_rejections_without_starting(self):
         h = self.handler(); image = Image.new('RGB', (8, 8))
         bad = [self.seeds(8), [], [{'type': 'rectangle', 'points': [0, 0, 4, 4]}],

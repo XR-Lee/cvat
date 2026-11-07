@@ -5,7 +5,7 @@ metadata:
     name: MedSAM2 Multi-Mask Video Propagation - GPU (Research)
     version: 2
     type: tracker
-    supported_shape_types: mask
+    supported_shape_types: mask,polygon
     spec: "[]"
 spec:
   description: Experimental MedSAM2_latest (bowang-lab/MedSAM2 332f30d, SAM2.1 Hiera-Tiny, 512 input) CUDA propagation for 1-7 masks and up to 100 frames. Weights licensed for research and education only. Use the Mask GPU toolbar dialog model selector. Shared GPU lock; no CPU fallback.

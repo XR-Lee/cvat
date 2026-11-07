@@ -1,0 +1,24 @@
+const {chromium}=require('/home/xinrun/pi-web/node_modules/playwright');const fs=require('fs');
+const ROOT=__dirname,prod=process.env.PROD==='1',base=prod?'https://cvat.lxrserver.xyz':'http://127.0.0.1:18080';
+const temp=JSON.parse(fs.readFileSync(ROOT+'/temp-ungrouped.json'));const creds=Object.fromEntries(fs.readFileSync('/home/xinrun/cvat/.credentials','utf8').trim().split('\n').map(l=>l.split('=')));
+(async()=>{const browser=await chromium.launch({headless:true,executablePath:'/home/xinrun/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome',args:['--no-sandbox']});try{
+const ctx=await browser.newContext({viewport:{width:1600,height:1000}});const login=await ctx.request.post(base+'/api/auth/login',{data:{username:'cvatadmin',password:creds.password},headers:{Accept:'application/vnd.cvat+json'}});if(!login.ok())throw Error('Login failed');
+const csrf=(await ctx.cookies()).find(c=>c.name==='csrftoken').value;const headers={'X-CSRFToken':csrf,Origin:base,Referer:base+'/',Accept:'application/vnd.cvat+json'};
+const before=await(await ctx.request.get(base+`/api/jobs/${temp.job}/annotations`)).json();const extras=before.shapes.filter(s=>!temp.before.shapes.some(o=>o.id===s.id));if(extras.length){const rr=await ctx.request.patch(base+`/api/jobs/${temp.job}/annotations?action=delete`,{headers,data:{shapes:extras}});if(!rr.ok())throw Error('reset failed');}
+const page=await ctx.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
+if(!prod){await page.route('**/multi-mask-gpu.js*',r=>r.fulfill({path:'/home/xinrun/cvat/components/sam2-video/multi-mask-gpu.js',contentType:'application/javascript'}));await page.route('**/tasks/*/jobs/*',async r=>{if(r.request().resourceType()==='document'){const raw=await ctx.request.get(base+'/');await r.fulfill({body:(await raw.text()).replace('</body>','<script defer src="/multi-mask-gpu.js"></script></body>'),contentType:'text/html'});}else await r.continue();});}
+await page.addInitScript(()=>window.addEventListener('plugins.ready',()=>window.cvatUI.registerComponent(({core,store})=>{window.__test={core,store};return{name:'test-observer',destructor(){}}}),{once:true}));
+await page.goto(`${base}/tasks/${temp.task}/jobs/${temp.job}`,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>window.__test?.store.getState().annotation.job.instance?.id,{timeout:90000});
+await page.locator('#cvat-multi-mask-gpu-button').click();await page.locator('#cvat-multi-mask-gpu-dialog').waitFor();
+const dialog=page.locator('#cvat-multi-mask-gpu-dialog');await dialog.locator('input[type=checkbox]').first().waitFor();const count=await dialog.locator('input[type=checkbox]').count();if(count!==3)throw Error('Expected 3 masks, got '+count);
+await dialog.locator('[data-role=frames]').fill('3');await page.screenshot({path:ROOT+(prod?'/public-button.png':'/staging-button.png')});
+await dialog.locator('[data-role=run]').click();await page.waitForFunction(()=>document.querySelector('#cvat-multi-mask-gpu-dialog [data-role=status]').textContent.startsWith('完成')||(!document.querySelector('#cvat-multi-mask-gpu-dialog [data-role=run]').disabled&&document.querySelector('#cvat-multi-mask-gpu-dialog [data-role=status]').textContent),{timeout:120000});
+const message=await dialog.locator('[data-role=status]').innerText();if(!message.startsWith('完成'))throw Error(message);
+const staged=await page.evaluate(async()=>{const j=__test.store.getState().annotation.job.instance;return{shapes:(await j.annotations.export()).shapes.map(s=>({id:s.id,frame:s.frame,group:s.group,label:s.label_id,type:s.type})),unsaved:j.annotations.hasUnsavedChanges()};});
+if(staged.shapes.length!==12||!staged.unsaved)throw Error('Expected 8 new masks + 4 originals '+JSON.stringify(staged));
+const server=await(await ctx.request.get(base+`/api/jobs/${temp.job}/annotations`)).json();if(server.shapes.length!==3)throw Error('Wrote before Save');
+const counts=Object.fromEntries([1,2,3].map(g=>[g,staged.shapes.filter(s=>s.group===g).length]));if(Object.values(counts).some(n=>n!==4))throw Error('Group identity mismatch');
+await dialog.locator('[data-role=close]').click();await page.getByText('Save',{exact:true}).click();await page.waitForFunction(()=>!__test.store.getState().annotation.job.instance.annotations.hasUnsavedChanges(),{timeout:30000});
+const saved=await(await ctx.request.get(base+`/api/jobs/${temp.job}/annotations`)).json();if(saved.shapes.length!==12)throw Error('Save mismatch');for(const old of temp.before.shapes){const got=saved.shapes.find(s=>s.id===old.id);require('node:assert/strict').deepEqual({...got,group:0},old,'Original mask changed');}
+fs.writeFileSync(ROOT+(prod?'/ungrouped-browser-result.json':'/staging-browser-result.json'),JSON.stringify({message,staged,saved_count:saved.shapes.length,counts,errors},null,2));console.log('PASS',message,'groups',counts,'errors',errors);
+}finally{await browser.close();}})().catch(e=>{console.error(e.message);process.exit(1)});

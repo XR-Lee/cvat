@@ -17,6 +17,23 @@
     const unchanged = () => ({ created: empty(), deleted: empty() });
     const clone = (x) => JSON.parse(JSON.stringify(x));
     const area = (p) => p.slice(0,-4).reduce((sum,n,i) => sum+(i%2?n:0),0);
+    // CVAT stores the same region as a mask (RLE + bbox) or a polygon (x/y pairs).
+    // Both are valid seeds; the service rasterizes polygons before inference.
+    const SEED_TYPES = new Set(['mask', 'polygon']);
+    const isSeed = (s) => !!s && SEED_TYPES.has(s.type);
+    function bboxOf(shape) {
+        const p = shape.points;
+        if (shape.type === 'mask') return p.slice(-4);
+        let x1=Infinity,y1=Infinity,x2=-Infinity,y2=-Infinity;
+        for (let i=0;i<p.length;i+=2){x1=Math.min(x1,p[i]);x2=Math.max(x2,p[i]);y1=Math.min(y1,p[i+1]);y2=Math.max(y2,p[i+1]);}
+        return [x1,y1,x2,y2];
+    }
+    function seedArea(shape) {
+        if (shape.type === 'mask') return area(shape.points);
+        const p=shape.points;let sum=0; // shoelace formula
+        for(let i=0,j=p.length-2;i<p.length;j=i,i+=2)sum+=(p[j]+p[i])*(p[j+1]-p[i+1]);
+        return Math.abs(sum)/2;
+    }
     function validateMask(shape,width,height) {
         if (!shape || shape.type !== 'mask' || !Array.isArray(shape.points) || shape.points.length < 6) throw Error('Invalid mask response');
         const p=shape.points, [x1,y1,x2,y2]=p.slice(-4), runs=p.slice(0,-4);
@@ -24,7 +41,7 @@
         return area(p);
     }
     function intersects(a,b) {
-        const [x1,y1,x2,y2]=a.slice(-4), [u1,v1,u2,v2]=b.slice(-4);
+        const [x1,y1,x2,y2]=bboxOf(a), [u1,v1,u2,v2]=bboxOf(b);
         return x1<=u2 && u1<=x2 && y1<=v2 && v1<=y2;
     }
     let installed=false;
@@ -36,15 +53,15 @@
             class MultiMaskAction extends core.classes.BaseCollectionAction {
                 get name(){return NAME;}
                 get descriptions(){return [
-                    {type:'info',message:`GPU: select 1–${MAX_OBJECTS} saved Masks from the SAME frame. Each object keeps its own label and Group, including objects with the same label. Default 20 frames; maximum ${MAX_FRAMES}. Review then Save.`},
+                    {type:'info',message:`GPU: select 1–${MAX_OBJECTS} saved Masks or Polygons from the SAME frame. Output is always a Mask. Each object keeps its own label and Group, including objects with the same label. Default 20 frames; maximum ${MAX_FRAMES}. Review then Save.`},
                     {type:'warning',message:'GPU busy errors mean another research job owns the card; retry later. Existing same-Group annotations are preserved. Ungrouped overlapping same-label masks are conservatively skipped. Missing/unstable objects stop individually; review all results.'}
                 ];}
                 get parameters(){return {
                     'Frames forward':{type:'number',values:['1',String(MAX_FRAMES),'1'],defaultValue:'20'},
                     Model:{type:'select',values:Object.keys(MODELS),defaultValue:DEFAULT_MODEL},
                 };}
-                isApplicableForObject(s){return s.objectType==='shape'&&s.shapeType==='mask';}
-                applyFilter({collection,frameData}){return {shapes:collection.shapes.filter(s=>s.type==='mask'&&s.frame===frameData.number&&!s.outside),tags:[],tracks:[]};}
+                isApplicableForObject(s){return s.objectType==='shape'&&SEED_TYPES.has(s.shapeType);}
+                applyFilter({collection,frameData}){return {shapes:collection.shapes.filter(s=>isSeed(s)&&s.frame===frameData.number&&!s.outside),tags:[],tracks:[]};}
                 async init(job,params){
                     if(busy)throw Error('A mask propagation is already running');
                     this.acquired=false;this.states=null;
@@ -75,14 +92,14 @@
                 }
                 async run({collection,frameData,onProgress,cancelled}){
                     const seeds=collection.shapes;
-                    if(seeds.length<1||seeds.length>MAX_OBJECTS)throw Error(`Select 1–${MAX_OBJECTS} saved Masks from one frame`);
-                    if(seeds.some(s=>!Number.isInteger(s.id)||s.frame!==frameData.number))throw Error('Save all selected Masks first, on the same frame');
+                    if(seeds.length<1||seeds.length>MAX_OBJECTS)throw Error(`Select 1–${MAX_OBJECTS} saved Masks or Polygons from one frame`);
+                    if(seeds.some(s=>!Number.isInteger(s.id)||s.frame!==frameData.number))throw Error('Save all selected shapes first, on the same frame');
                     const nonzero=seeds.filter(s=>s.group).map(s=>s.group);
                     if(new Set(nonzero).size!==nonzero.length)throw Error('Selected objects share a Group. Give different objects separate Groups before tracking');
                     const snapshot=await this.job.annotations.export(),saved=await this.saved();
                     for(const seed of seeds){
                         const s=saved.shapes.find(x=>x.id===seed.id);
-                        if(!s||s.frame!==seed.frame||s.label_id!==seed.label_id||s.group!==seed.group||JSON.stringify(s.points)!==JSON.stringify(seed.points)||JSON.stringify(s.attributes)!==JSON.stringify(seed.attributes))throw Error('Saved Masks differ from the editor. Reload after saving');
+                        if(!s||s.frame!==seed.frame||s.label_id!==seed.label_id||s.group!==seed.group||JSON.stringify(s.points)!==JSON.stringify(seed.points)||JSON.stringify(s.attributes)!==JSON.stringify(seed.attributes))throw Error('Saved shapes differ from the editor. Reload after saving');
                     }
                     const frameNumbers=(await this.job.frames.frameNumbers()).filter(f=>f>frameData.number).slice(0,this.steps);
                     if(!frameNumbers.length)throw Error('No following frames');
@@ -97,15 +114,15 @@
                         }))return true;
                         // Different known groups are distinct objects even with the same label.
                         // Unknown same-label masks are protected only at overlapping locations.
-                        return existing.some(s=>s.frame===frame&&!s.group&&s.type==='mask'&&s.label_id===seed.label_id&&intersects(s.points,predicted.points));
+                        return existing.some(s=>s.frame===frame&&!s.group&&isSeed(s)&&s.label_id===seed.label_id&&intersects(s,predicted));
                     }
                     if(cancelled())return unchanged();
                     onProgress(`GPU: initializing ${seeds.length} objects…`,0);
                     // `frames` tells MedSAM2 the official clip length (ignored by SAM2.1).
-                    let response=await this.invoke({frame:frameData.number,shapes:seeds.map(s=>({type:'mask',points:s.points,frames:frameNumbers.length}))});
+                    let response=await this.invoke({frame:frameData.number,shapes:seeds.map(s=>({type:s.type,points:s.points,frames:frameNumbers.length}))});
                     this.states=response.states;this.lastFrame=frameData.number;
                     if(this.states.length!==seeds.length)throw Error('GPU object count mismatch');
-                    const output=seeds.map(()=>[]),active=seeds.map(()=>true),previous=seeds.map(s=>area(s.points));let skipped=0;
+                    const output=seeds.map(()=>[]),active=seeds.map(()=>true),previous=seeds.map(seedArea);let skipped=0;
                     for(let f=0;f<frameNumbers.length;f++){
                         if(cancelled())return unchanged();
                         const frame=frameNumbers[f],meta=await this.job.frames.get(frame);
@@ -157,7 +174,7 @@
                     button.setAttribute('aria-label','多 Mask 跟踪 · GPU');
                     button.setAttribute('aria-haspopup','dialog');
                     button.setAttribute('aria-controls','cvat-multi-mask-gpu-dialog');
-                    button.title=`多 Mask 跟踪 · GPU：选择 1–${MAX_OBJECTS} 个已保存 Mask，最多向后 ${MAX_FRAMES} 帧`;
+                    button.title=`多 Mask 跟踪 · GPU：选择 1–${MAX_OBJECTS} 个已保存 Mask／Polygon，最多向后 ${MAX_FRAMES} 帧`;
                     button.style.cssText='width:72px;flex:0 0 72px;color:#0958d9;border:1px solid transparent;border-radius:4px;background:transparent;white-space:nowrap';
                     button.innerHTML='<span role="img" aria-hidden="true" class="anticon"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="m3 7 8-4 8 4-8 4-8-4Z"/><path d="m3 11 8 4 4-2M3 15l8 4 3-1.5"/><path d="m18 13 4 3-4 3v-6Z"/></g></svg></span><span>Mask · GPU</span>';
                     button.addEventListener('click',openDialog);
@@ -174,7 +191,7 @@
                 if(dialog)return;
                 const state=store.getState(),job=state.annotation.job.instance,frame=state.annotation.player.frame.number;
                 dialog=document.createElement('dialog');dialog.id='cvat-multi-mask-gpu-dialog';dialog.style.cssText='width:580px;max-width:90vw;border:1px solid #91caff;border-radius:10px;padding:24px;box-shadow:0 10px 40px #0005';
-                dialog.innerHTML=`<h2 style="margin-top:0">多 Mask 视频跟踪 · GPU</h2><p>勾选当前帧的 1–${MAX_OBJECTS} 个已保存 Mask；支持不同类别及同类别的不同对象。</p><div data-role="objects" style="max-height:240px;overflow:auto"></div><p><label>模型 <select data-role="model">${Object.entries(MODELS).map(([value,{label}])=>`<option value="${value}">${label}</option>`).join('')}</select></label></p><p data-role="model-note" style="font-size:12px;color:#ad4e00;margin:4px 0"></p><p><label>向后帧数 <input data-role="frames" type="number" min="1" max="${MAX_FRAMES}" value="20" style="width:70px"></label></p><p>最多 ${MAX_FRAMES} 帧；长片段更容易漂移，请检查后再 Save。不会覆盖已有对象。GPU 被其他任务占用时会提示稍后重试。</p><progress data-role="progress" max="100" value="0" style="width:100%"></progress><p data-role="status" role="status" style="white-space:pre-wrap"></p><div style="display:flex;justify-content:flex-end;gap:12px"><button data-role="close">关闭</button><button data-role="run">开始 GPU 跟踪</button></div>`;
+                dialog.innerHTML=`<h2 style="margin-top:0">多 Mask 视频跟踪 · GPU</h2><p>勾选当前帧的 1–${MAX_OBJECTS} 个已保存 Mask 或多边形（结果保存为 Mask）；支持不同类别及同类别的不同对象。</p><div data-role="objects" style="max-height:240px;overflow:auto"></div><p><label>模型 <select data-role="model">${Object.entries(MODELS).map(([value,{label}])=>`<option value="${value}">${label}</option>`).join('')}</select></label></p><p data-role="model-note" style="font-size:12px;color:#ad4e00;margin:4px 0"></p><p><label>向后帧数 <input data-role="frames" type="number" min="1" max="${MAX_FRAMES}" value="20" style="width:70px"></label></p><p>最多 ${MAX_FRAMES} 帧；长片段更容易漂移，请检查后再 Save。不会覆盖已有对象。GPU 被其他任务占用时会提示稍后重试。</p><progress data-role="progress" max="100" value="0" style="width:100%"></progress><p data-role="status" role="status" style="white-space:pre-wrap"></p><div style="display:flex;justify-content:flex-end;gap:12px"><button data-role="close">关闭</button><button data-role="run">开始 GPU 跟踪</button></div>`;
                 const groupHelp=document.createElement('p');
                 groupHelp.id='cvat-multi-mask-group-help';
                 groupHelp.style.cssText='font-size:12px;line-height:1.5;color:#595959;margin:8px 0';
@@ -195,13 +212,13 @@
                 function requestClose(){if(running){cancel=true;status.textContent='正在取消：等待当前帧请求结束，本轮结果不会提交。';close.disabled=true;}else{currentDialog.close();currentDialog.remove();dialog=null;}}
                 close.onclick=requestClose;dialog.addEventListener('cancel',e=>{e.preventDefault();requestClose();});
                 try{
-                    const states=(await job.annotations.get(frame)).filter(s=>s.objectType==='shape'&&s.shapeType==='mask'&&!s.outside&&!s.hidden);
+                    const states=(await job.annotations.get(frame)).filter(s=>s.objectType==='shape'&&SEED_TYPES.has(s.shapeType)&&!s.outside&&!s.hidden);
                     if(!states.length){status.textContent='当前帧没有可跟踪的 Mask。请先标注并保存。';run.disabled=true;return;}
-                    states.forEach((s,i)=>{const label=document.createElement('label');label.style.cssText='display:block;padding:8px;border-bottom:1px solid #ddd';const check=document.createElement('input');check.type='checkbox';check.value=String(i);check.checked=states.length<=MAX_OBJECTS;label.append(check,document.createTextNode(` #${s.serverID??s.clientID} · ${s.label.name} · ${s.group?.id?`对象组 ${s.group.id}`:'未分组（运行后自动分组）'}`));list.appendChild(label);});
+                    states.forEach((s,i)=>{const label=document.createElement('label');label.style.cssText='display:block;padding:8px;border-bottom:1px solid #ddd';const check=document.createElement('input');check.type='checkbox';check.value=String(i);check.checked=states.length<=MAX_OBJECTS;label.append(check,document.createTextNode(` #${s.serverID??s.clientID} · ${s.label.name} · ${s.shapeType==='polygon'?'多边形':'Mask'} · ${s.group?.id?`对象组 ${s.group.id}`:'未分组（运行后自动分组）'}`));list.appendChild(label);});
                     run.onclick=async()=>{
                         const selected=[...list.querySelectorAll('input:checked')].map(c=>states[Number(c.value)]);
                         const steps=Number(input.value);
-                        if(!selected.length||selected.length>MAX_OBJECTS||!Number.isInteger(steps)||steps<1||steps>MAX_FRAMES){status.textContent=`请选择 1–${MAX_OBJECTS} 个 Mask，帧数 1–${MAX_FRAMES}。`;return;}
+                        if(!selected.length||selected.length>MAX_OBJECTS||!Number.isInteger(steps)||steps<1||steps>MAX_FRAMES){status.textContent=`请选择 1–${MAX_OBJECTS} 个 Mask／多边形，帧数 1–${MAX_FRAMES}。`;return;}
                         if(job.annotations.hasUnsavedChanges()){status.textContent='请先关闭窗口并 Save，再运行。';return;}
                         if(store.getState().annotation.player.frame.number!==frame){status.textContent='当前帧已变化，请关闭并重新打开。';return;}
                         const modelName=modelSelect.value;

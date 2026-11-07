@@ -10,7 +10,7 @@
                     traefik:v3.6   host port 18080 -> 8080
                     /                         \
               cvat_server                 cvat_ui
-           cvat/server:v2.80.0      cvat/ui:sam2-multi-gpu-v4-medsam2
+           cvat/server:v2.80.0      cvat/ui:sam2-multi-gpu-v5-polygon
                     |
       postgres 15 | redis-inmem | kvrocks (chunk cache) | clickhouse
                     |
@@ -27,15 +27,44 @@
 | traefik | `18080 -> 8080` | our patch: upstream publishes `8080` + `8090`, which collide with other services on this host |
 | nuclio dashboard | `127.0.0.1:8070` | loopback only |
 
+### Nuclio function ports (pinned)
+
+| Function | Host port |
+|---|---|
+| SAM 2.1 point/box interactor | 32768 |
+| Grounding DINO + SAM 2.1 auto-labeling | 32769 |
+| SAM 2.1 rectangle tracker | 32770 |
+| SAM2.1 CPU single-mask video | 32771 |
+| SAM2.1 GPU multi-mask video | 32772 |
+| MedSAM2 GPU multi-mask video | 32774 |
+| MedSAM2 point/box interactor | 32775 |
+| Grounding DINO + MedSAM2 auto-labeling | 32776 |
+
+Ports are pinned in each `function.yaml` (`triggers.myHttpTrigger.attributes.port`).
+Nuclio otherwise assigns random host ports, which collided after the
+2026-10-27 reboot (the rectangle tracker took 32768 and the point interactor
+could not start).
+
 ## Images
 
 | Image | Built from | Purpose |
 |---|---|---|
 | `cvat/server:v2.80.0` | upstream | unchanged |
 | `cvat/ui:sam2-video-v1` | `overlay/components/sam2-video/Dockerfile.ui` | upstream bundle + `mask-video-action.js` |
-| `cvat/ui:sam2-multi-gpu-v4-medsam2` | `.../Dockerfile.ui.multi` | above + `multi-mask-gpu.js` |
+| `cvat/ui:sam2-multi-gpu-v5-polygon` | `.../Dockerfile.ui.multi` | above + `multi-mask-gpu.js` (script cache `polygon-1`) |
 | `cvat.sam2-video-cuda:2.9-cu128-595.71.05` | `.../Dockerfile.gpu` | torch 2.9/cu128 + host driver libs |
 | `cvat.pth.bowang-lab.medsam2:latest` | `build/medsam2/Dockerfile` | MedSAM2 runtime |
+
+### GPU driver libraries
+
+The GPU functions do **not** ship a fixed driver version at runtime.
+`host_nvidia.py` runs before CUDA initialises, symlinks the host's own
+`libcuda*` / `libnvidia-*` from `/host-nvidia-lib` (the host root exposed
+through snap's `/var/lib/snapd/hostfs`) into `/opt/nvidia-host`, and sets
+`LD_LIBRARY_PATH` to that directory only. The links are recreated on every
+container start, so a host driver upgrade is picked up without rebuilding.
+`--gpus`/`--resource-limit nvidia.com/gpu=1` cannot be used here: snap Docker
+uses CDI hooks and rejects them.
 
 The UI images never rebuild the upstream bundle — they copy one JS file into
 `/usr/share/nginx/html/` and inject a `<script defer>` tag into `index.html`.
@@ -76,8 +105,12 @@ docker exec cvat_server python -c "from django.conf import settings; print(setti
 # functions healthy
 docker ps --format '{{.Names}}\t{{.Status}}' | grep '^nuclio-'
 
-# GPU visible inside a function
-docker exec nuclio-nuclio-pth-facebookresearch-sam2-video-mask-gpu nvidia-smi -L
+# GPU visible inside a function (host libraries are linked at start-up)
+docker exec nuclio-nuclio-pth-facebookresearch-sam2-video-mask-gpu \
+  python3 -c 'import torch; print(torch.cuda.is_available(), torch.cuda.get_device_name(0))'
+
+# functions report the host driver version they picked up
+docker logs nuclio-nuclio-pth-medsam2-video-mask-gpu 2>&1 | grep 'host driver'
 ```
 
 ## Aliyun OSS integration

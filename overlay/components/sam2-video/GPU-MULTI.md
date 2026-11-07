@@ -2,11 +2,20 @@
 
 ## User workflow
 
-Save annotations, refresh the job, and click the blue layered-mask icon labeled **Mask · GPU** in the top toolbar beside Save/Undo/Redo (tooltip/accessibility name: **多 Mask 跟踪 · GPU**). Select 1–7 saved, visible Masks on the current frame, including different labels or different objects with the same label. Choose 1–100 following frames (default 20), run, inspect, then **Save**. The dialog is modal so normal editor navigation stays unavailable during propagation. Cancel waits for the current request, releases the session, and adds no partial results.
+Save annotations, refresh the job, and click the blue layered-mask icon labeled **Mask · GPU** in the top toolbar beside Save/Undo/Redo (tooltip/accessibility name: **多 Mask 跟踪 · GPU**). Select 1–7 saved, visible **Masks or Polygons** on the current frame, including different labels or different objects with the same label. Choose 1–100 following frames (default 20), run, inspect, then **Save**. Output is always saved as Masks; the seed shape is never converted. The dialog is modal so normal editor navigation stays unavailable during propagation. Cancel waits for the current request, releases the session, and adds no partial results.
 
 The equivalent annotation action is **SAM2 Multi-Mask Video Propagation - GPU**. The older single-mask CPU action remains available as a fallback and was not renamed as GPU.
 
-**Model selector (2026-10-27):** the dialog now has a Model drop-down. Default **SAM2.1 Large** (this document). Optional experimental **MedSAM2** (research/education-only weights) is documented in [MEDSAM2.md](MEDSAM2.md). Live UI image: `cvat/ui:sam2-multi-gpu-v4-medsam2`, script cache version `medsam2-1`. Seed shapes now carry the planned following-frame count as `frames`; the SAM2.1 handler ignores it.
+**Model selector (2026-10-27):** the dialog now has a Model drop-down. Default **SAM2.1 Large** (this document). Optional experimental **MedSAM2** (research/education-only weights) is documented in [MEDSAM2.md](MEDSAM2.md). Live UI image: `cvat/ui:sam2-multi-gpu-v5-polygon`, script cache version `polygon-1`. Seed shapes now carry the planned following-frame count as `frames`; the SAM2.1 handler ignores it.
+
+**Polygon seeds (2026-10-27):** `Convert masks to polygons` in the interactor produces polygon shapes, and CVAT accepts a polygon even on a mask-type label. The GPU trackers declared `supported_shape_types: mask`, so the server rejected those objects with `This function does not support shapes of type 'polygon'` and the UI filtered them out. Fixed on both sides:
+
+- Both GPU `function.yaml`: `supported_shape_types: mask,polygon`; live UI image `cvat/ui:sam2-multi-gpu-v5-polygon`, script cache `polygon-1`.
+- `decode_polygon()` rasterizes vertices with `PIL.ImageDraw` into a frame-sized bitmap (coordinates clamped, >=3 distinct vertices, non-empty, `MAX_PIXELS` cap); `shape_bitmap()` dispatches on `type`, so a polygon and a mask covering the same region give the same seed bitmap.
+- The init response now echoes `encode_mask(bitmap)` rather than the raw seed points; previously a polygon seed was echoed back as `type: mask` with polygon coordinates.
+- Frontend `SEED_TYPES = {mask, polygon}`: applicability, filtering, the dialog list (shows 多边形), bbox overlap protection and the area guard (shoelace for polygons) handle both; the request sends each seed's real type (it previously hard-coded `mask`).
+- The older single-mask CPU action remains mask-only.
+- Tests: frontend 18/18 (3 polygon cases), SAM2.1 GPU 8/8 (3 new), MedSAM2 GPU 4/4 (1 new). Public end-to-end: polygon seeds propagated through both GPU services (valid areas, output type mask, temp job unchanged); public browser run listed the polygon, produced 3 masks in one Group with the seed polygon untouched, saved 4 shapes; the object-menu **Run annotation action** now offers the GPU action for polygons. Temporary task deleted; Task 2 untouched. Evidence: `.diagnostics/polygon-gpu-20261027/`.
 
 ## Object identity and protection
 
@@ -43,7 +52,7 @@ The equivalent annotation action is **SAM2 Multi-Mask Video Propagation - GPU**.
 - CUDA build context: `.gpu-runtime/build/`, with `driver-libs/` containing `libcuda`, `libnvidia-ml`, `libnvidia-ptxjitcompiler`, and `libnvidia-gpucomp` version 595.71.05.
 - Frontend: `components/sam2-video/multi-mask-gpu.js`, loaded via CVAT public plugin/action APIs and a top-toolbar button.
 - UI recipe: `components/sam2-video/Dockerfile.ui.multi`, extending the previously verified CPU-plugin image.
-- Live UI image: `cvat/ui:sam2-multi-gpu-v3-toolbar`, pinned in `docker-compose.override.yml`. Script cache version: `toolbar-align-1`.
+- Live UI image: `cvat/ui:sam2-multi-gpu-v5-polygon`, pinned in `docker-compose.override.yml`. Script cache version: `polygon-1` (later section).
 - Toolbar alignment update: native CVAT icon-above-caption structure, 48-pixel height, matching icon/caption positions at 1280- and 1600-pixel viewports. Public browser mouse/keyboard open, close, group explanation, and unchanged 7-mask/100-frame limits verified with zero annotation writes/inference calls. Evidence: `.diagnostics/toolbar-align-20261027/`.
 - Private initial backups/evidence: `.diagnostics/multi-gpu-20261026/`.
 - Limit-expansion backups/evidence: `.diagnostics/limits-7x100-20261026/`.

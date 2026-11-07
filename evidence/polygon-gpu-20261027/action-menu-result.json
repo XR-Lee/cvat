@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "menu_has_run_action": true,
+  "actions": [
+    "Propagate shapes",
+    "Simplify polygons and polylines",
+    "SAM2 Multi-Mask Video Propagation - GPU"
+  ],
+  "msg_excerpt": "Selected action will be applied to the current object | Select action | SAM2 Multi-Mask Video Propagation - GPU",
+  "saved_shapes_server": 4,
+  "errors": []
+}

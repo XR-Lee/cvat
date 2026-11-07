@@ -18,6 +18,8 @@ SRC="${CVAT_SRC:-$ROOT/cvat}"
 FILTER="${1:-}"
 
 DOCKER_NETWORK="${DOCKER_NETWORK:-cvat_cvat}"
+export TMPDIR="${TMPDIR:-$SRC/.nuclio-tmp}"
+mkdir -p "$TMPDIR"
 REDIS_HOST="${REDIS_HOST:-cvat_redis_ondisk}"
 REDIS_PORT="${REDIS_PORT:-6666}"
 
@@ -45,21 +47,19 @@ for dir in "${FUNC_DIRS[@]}"; do
 
     echo "==> $(basename "$(dirname "$dir")")/$(basename "$dir")"
 
-    # GPU functions live in *-gpu dirs; everything else is CPU.
-    extra=()
-    case "$(basename "$dir")" in
-        *-gpu) extra+=(--resource-limit nvidia.com/gpu=1) ;;
-    esac
-
+    # GPU access comes from function.yaml (devices + the host NVIDIA library
+    # mount). Nuclio's only GPU switch is --resource-limit nvidia.com/gpu=1,
+    # which becomes `docker --gpus`; snap Docker rejects that (its CDI hook
+    # requires --runtime=nvidia), so it must not be used on this host.
     nuctl deploy \
         --project-name cvat \
         --path "$dir" \
         --file "$dir/function.yaml" \
         --platform local \
+        --no-pull \
         --env CVAT_FUNCTIONS_REDIS_HOST="$REDIS_HOST" \
         --env CVAT_FUNCTIONS_REDIS_PORT="$REDIS_PORT" \
-        --platform-config "{\"attributes\": {\"network\": \"$DOCKER_NETWORK\"}}" \
-        "${extra[@]}"
+        --platform-config "{\"attributes\": {\"network\": \"$DOCKER_NETWORK\"}}"
 done
 
 echo

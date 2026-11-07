@@ -56,4 +56,4 @@ Five existing objects, each started from its earliest saved Mask, same original-
 
 ## Rollback
 
-Set `cvat_ui` back to `cvat/ui:sam2-multi-gpu-v3-toolbar` (pre-MedSAM2 UI) and recreate only `cvat_ui`; then `nuctl delete function pth-medsam2-video-mask-gpu --namespace nuclio --platform local` if desired. No annotation data depends on this function.
+Set `cvat_ui` back to `cvat/ui:sam2-multi-gpu-v4-medsam2` (pre-polygon UI) and recreate only `cvat_ui`; then `nuctl delete function pth-medsam2-video-mask-gpu --namespace nuclio --platform local` if desired. No annotation data depends on this function.

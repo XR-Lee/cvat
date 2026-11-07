@@ -1,0 +1,68 @@
+{
+  "task": 22,
+  "job": 22,
+  "labels": {
+    "any-poly": 85,
+    "mask-only": 86
+  },
+  "created": [
+    {
+      "type": "polygon",
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 8,
+        "sha256": "5de1b43d73b5ccc06fc4891a2a6fef5f13580bae5bb81a759daecb696f09a438",
+        "min": 150,
+        "max": 660,
+        "bbox": [
+          660,
+          430,
+          320,
+          450
+        ]
+      },
+      "id": 1774,
+      "label_id": 85,
+      "group": 0,
+      "source": "manual",
+      "frame": 0,
+      "score": 1,
+      "attributes": [],
+      "elements": []
+    },
+    {
+      "type": "mask",
+      "occluded": false,
+      "outside": false,
+      "z_order": 0,
+      "rotation": 0.0,
+      "points": {
+        "redacted": true,
+        "kind": "geometry",
+        "length": 741,
+        "sha256": "ec0ddb3b95780def53b2be1bed939fd141a16859eb4c890586a336fb9af146ba",
+        "min": 0.0,
+        "max": 7332.0,
+        "bbox": [
+          327.0,
+          0.0,
+          760.0,
+          351.0
+        ]
+      },
+      "id": 1775,
+      "label_id": 86,
+      "group": 0,
+      "source": "manual",
+      "frame": 0,
+      "score": 1,
+      "attributes": [],
+      "elements": []
+    }
+  ]
+}

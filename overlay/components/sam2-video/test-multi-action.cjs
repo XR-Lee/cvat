@@ -9,7 +9,8 @@ function harness(options={}){
  const col={shapes:options.count?[...seeds]:[a,b,existing],tracks:[],tags:[]};
  class Job{};class BaseCollectionAction{};
  const job=new Job();Object.assign(job,{id:1,taskId:2,frames:{frameNumbers:async()=>Array.from({length:(options.frames??2)+1},(_,i)=>i),get:async()=>({width:10,height:10})},annotations:{hasUnsavedChanges:()=>!!options.unsaved,export:async()=>structuredClone(col),get:async()=>[{clientID:1},{clientID:2}],group:async()=>{groups++;return groupNext++;}}});
- const core={classes:{Job,BaseCollectionAction},actions:{register:a=>action=a,unregister(){}},lambda:{list:async()=>({models:[{id:'pth-facebookresearch-sam2-video-mask-gpu'},...(options.noMed?[]:[{id:'pth-medsam2-video-mask-gpu'}])]}),call:async(_t,m,d)=>{calls++;requests.push({model:m.id,body:structuredClone(d)});if(options.busy)return {error:'GPU is busy',device:'cuda'};return {device:'cuda',states:seeds.map((_,i)=>`s${i}`),shapes:seeds.map((s,i)=>options.lost&&d.states&&i===0?null:s)};}}};
+ const core={classes:{Job,BaseCollectionAction},actions:{register:a=>action=a,unregister(){}},lambda:{list:async()=>({models:[{id:'pth-facebookresearch-sam2-video-mask-gpu'},...(options.noMed?[]:[{id:'pth-medsam2-video-mask-gpu'}])]}),call:async(_t,m,d)=>{calls++;requests.push({model:m.id,body:structuredClone(d)});if(options.busy)return {error:'GPU is busy',device:'cuda'};const asMask=(s)=>s.type==='mask'?s:{type:'mask',points:[0,100,0,0,9,9]};
+ return {device:'cuda',states:seeds.map((_,i)=>`s${i}`),shapes:seeds.map((s,i)=>options.lost&&d.states&&i===0?null:asMask(s))};}}};
  const store={getState:()=>({}),subscribe:()=>()=>{}};
  const window={addEventListener(){},cvatUI:{registerComponent:f=>f({core,store})}};
  const fetch=async()=>({ok:true,json:async()=>{fetches++;const d=structuredClone(col);if(options.remoteEdit&&fetches>1)d.shapes[0].group=9;return d;}});
@@ -39,3 +40,37 @@ test('unknown model or missing MedSAM2 service rejected before inference',async(
 test('101 frames rejected before inference',async()=>{const h=harness();h.frames=101;await assert.rejects(run(h),/1–100/);assert.equal(h.calls,0);});
 test('ungrouped seeds receive separate identities',async()=>{const h=harness();h.seeds.forEach(s=>s.group=0);h.col.shapes.splice(2);const out=await run(h);assert.equal(h.groups,2);assert.deepEqual(Array.from(new Set(out.created.shapes.map(s=>s.group))),[10,11]);await h.action.destroy();});
 test('unknown overlapping same-label mask protects only its spatial region',async()=>{const h=harness();h.col.shapes[2].group=0;const out=await run(h);assert.deepEqual(Array.from(out.created.shapes,s=>[s.frame,s.group]),[[2,2],[1,3],[2,3]]);await h.action.destroy();});
+
+test('polygon seeds are trackable and produce mask output',async()=>{
+ const h=harness();
+ const poly={id:5,clientID:9,frame:0,type:'polygon',label_id:5,group:4,attributes:[],points:[2,2, 9,2, 9,9, 2,9]};
+ h.seeds.push(poly);h.col.shapes.push(poly);
+ const out=await run(h);
+ assert.ok(out.created.shapes.length>0);
+ assert.ok(out.created.shapes.every(s=>s.type==='mask'),'outputs are masks');
+ assert.ok(out.created.shapes.filter(s=>s.group===4).every(s=>s.label_id===5));
+ assert.ok(h.requests[0].body.shapes.some(s=>s.type==='polygon'),'polygon sent to the service');
+ await h.action.destroy();
+});
+test('polygon seed area guard uses the polygon area, not RLE parsing',async()=>{
+ const h=harness();
+ const poly={id:5,clientID:9,frame:0,type:'polygon',label_id:5,group:4,attributes:[],points:[0,0, 10,0, 10,10, 0,10]};
+ h.seeds.push(poly);h.col.shapes.push(poly);
+ const out=await run(h); // mocked prediction has area 16 and must not trip the 3x area guard
+ assert.ok(out.created.shapes.some(s=>s.group===4));
+ assert.equal(h.action.warnings.length,0,JSON.stringify(h.action.warnings));
+ await h.action.destroy();
+});
+test('rectangle seeds are not offered to the GPU action',async()=>{
+ const h=harness();
+ const rect={id:6,clientID:10,frame:0,type:'rectangle',label_id:5,group:5,attributes:[],points:[0,0,5,5]};
+ h.col.shapes.push(rect);
+ await h.action.init(h.job,{'Frames forward':2});
+ const filtered=h.action.applyFilter({collection:{shapes:[rect]},frameData:{number:0,width:10,height:10}});
+ assert.deepEqual(filtered.shapes,[]);
+ const fakeState={objectType:'shape',shapeType:'rectangle'};
+ assert.equal(h.action.isApplicableForObject(fakeState),false);
+ assert.equal(h.action.isApplicableForObject({objectType:'shape',shapeType:'polygon'}),true);
+ assert.equal(h.action.isApplicableForObject({objectType:'shape',shapeType:'mask'}),true);
+ await h.action.destroy();
+});

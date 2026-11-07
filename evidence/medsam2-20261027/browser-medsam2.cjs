@@ -1,0 +1,29 @@
+const {chromium}=require('/home/xinrun/pi-web/node_modules/playwright');const fs=require('fs'),assert=require('node:assert/strict');
+const ROOT=__dirname,live=process.env.LIVE==='1',base='https://cvat.lxrserver.xyz',MODEL=process.env.MODEL||'MedSAM2';
+const ENDPOINT={MedSAM2:'pth-medsam2-video-mask-gpu','SAM2.1 Large':'pth-facebookresearch-sam2-video-mask-gpu'}[MODEL];
+const tmp=JSON.parse(fs.readFileSync(ROOT+'/temp.json'));const c=Object.fromEntries(fs.readFileSync('/home/xinrun/cvat/.credentials','utf8').trim().split('\n').map(l=>l.split('=')));
+(async()=>{const browser=await chromium.launch({headless:true,executablePath:'/home/xinrun/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome',args:['--no-sandbox']});try{
+ const ctx=await browser.newContext({viewport:{width:1600,height:1000}});assert.ok((await ctx.request.post(base+'/api/auth/login',{data:{username:'cvatadmin',password:c.password},headers:{Accept:'application/vnd.cvat+json'}})).ok());
+ const csrf=(await ctx.cookies()).find(x=>x.name==='csrftoken').value,headers={'X-CSRFToken':csrf,Origin:base,Referer:base+'/',Accept:'application/vnd.cvat+json'};
+ const cur=await(await ctx.request.get(base+`/api/jobs/${tmp.job}/annotations`)).json();const extra=cur.shapes.filter(s=>!tmp.before.shapes.some(o=>o.id===s.id));if(extra.length)assert.ok((await ctx.request.patch(base+`/api/jobs/${tmp.job}/annotations?action=delete`,{headers,data:{shapes:extra}})).ok());
+ const page=await ctx.newPage(),errors=[],calls=[];page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{const m=r.url().match(/lambda\/functions\/([^?]+)/);if(m&&r.method()==='POST')calls.push(m[1]);});
+ if(!live)await page.route('**/multi-mask-gpu.js*',r=>r.fulfill({path:'/home/xinrun/cvat/components/sam2-video/multi-mask-gpu.js',contentType:'application/javascript'}));
+ await page.addInitScript(()=>{try{localStorage.removeItem('cvat-multi-mask-gpu-model');}catch(_){};window.addEventListener('plugins.ready',()=>window.cvatUI.registerComponent(({store})=>{window.__store=store;return{name:'obs',destructor(){}}}),{once:true});});
+ await page.goto(`${base}/tasks/${tmp.task}/jobs/${tmp.job}`);await page.locator('#cvat-multi-mask-gpu-button').waitFor({timeout:90000});
+ await page.locator('#cvat-multi-mask-gpu-button').click();const d=page.locator('#cvat-multi-mask-gpu-dialog');await d.locator('[data-role=objects] input').first().waitFor();
+ assert.equal(await d.locator('[data-role=model]').inputValue(),'SAM2.1 Large','default model');assert.equal(await d.locator('[data-role=model-note]').innerText(),'');
+ await d.locator('[data-role=model]').selectOption(MODEL);if(MODEL==='MedSAM2')assert.match(await d.locator('[data-role=model-note]').innerText(),/仅限研究和教学/);
+ await d.locator('[data-role=frames]').fill('5');await page.screenshot({path:ROOT+`/${live?'live':'stage'}-dialog.png`});
+ let msg;for(let i=0;i<120;i++){await d.locator('[data-role=run]').click();await page.waitForFunction(()=>{const x=document.querySelector('#cvat-multi-mask-gpu-dialog');return !x.querySelector('[data-role=run]').disabled&&x.querySelector('[data-role=status]').textContent;},undefined,{timeout:180000});msg=await d.locator('[data-role=status]').innerText();if(/GPU is busy/.test(msg)){await page.waitForTimeout(3000);continue;}break;}
+ assert.ok(msg.startsWith(`完成（${MODEL}）`),msg);
+ assert.ok(calls.filter(x=>/video-mask-gpu/.test(x)).every(x=>x===ENDPOINT),JSON.stringify(calls));
+ const staged=await page.evaluate(async()=>{const j=__store.getState().annotation.job.instance;return{n:(await j.annotations.export()).shapes.length,unsaved:j.annotations.hasUnsavedChanges()};});assert.ok(staged.unsaved);assert.ok(staged.n>tmp.before.shapes.length,'masks staged');
+ assert.equal((await(await ctx.request.get(base+`/api/jobs/${tmp.job}/annotations`)).json()).shapes.length,tmp.before.shapes.length,'not saved before Save');
+ await d.locator('[data-role=close]').click();await page.getByText('Save',{exact:true}).click();await page.waitForFunction(()=>!__store.getState().annotation.job.instance.annotations.hasUnsavedChanges(),undefined,{timeout:60000});
+ const saved=await(await ctx.request.get(base+`/api/jobs/${tmp.job}/annotations`)).json();assert.equal(saved.shapes.length,staged.n);const seedGroups=[];for(const o of tmp.before.shapes){const got=saved.shapes.find(s=>s.id===o.id);assert.deepEqual({...got,group:o.group},o,'seed changed beyond its group');seedGroups.push(got.group);}assert.ok(seedGroups.every(g=>g>0)&&new Set(seedGroups).size===seedGroups.length,'seeds need distinct groups');for(const g of seedGroups)assert.ok(saved.shapes.filter(s=>s.group===g).length>1,'propagated masks share their seed group');
+ // Remembered choice; switching back to SAM2.1 must route there.
+ await page.locator('#cvat-multi-mask-gpu-button').click();await d.locator('[data-role=objects] input').first().waitFor();assert.equal(await d.locator('[data-role=model]').inputValue(),MODEL,'choice remembered');
+ await d.locator('[data-role=model]').selectOption('SAM2.1 Large');await d.locator('[data-role=close]').click();
+ const toolbar=await page.evaluate(()=>{const a=document.querySelector('.cvat-annotation-header-save-button').getBoundingClientRect(),b=document.querySelector('#cvat-multi-mask-gpu-button').getBoundingClientRect();return{save_top:a.top,mask_top:b.top,save_h:a.height,mask_h:b.height};});assert.equal(toolbar.save_top,toolbar.mask_top);assert.equal(toolbar.save_h,toolbar.mask_h);
+ assert.deepEqual(errors,[]);const result={passed:true,message:msg,staged_new_masks:staged.n-tmp.before.shapes.length,saved:saved.shapes.length,gpu_calls:calls.filter(x=>/video-mask-gpu/.test(x)).length,toolbar,errors};result.model=MODEL;fs.writeFileSync(ROOT+`/${live?'live':'stage'}-${MODEL.replace(/\W+/g,'')}-result.json`,JSON.stringify(result,null,2));console.log(JSON.stringify(result));
+}finally{await browser.close();}})().catch(e=>{console.error(e.stack);process.exit(1)});

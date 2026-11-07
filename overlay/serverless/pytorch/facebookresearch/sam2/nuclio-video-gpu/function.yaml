@@ -5,7 +5,7 @@ metadata:
     name: SAM2 Multi-Mask Video Propagation - GPU
     version: 2
     type: tracker
-    supported_shape_types: mask
+    supported_shape_types: mask,polygon
     spec: "[]"
 spec:
   description: CUDA SAM2 video memory for 1-7 independent mask objects. Use Multi-mask tracking button. Cooperative GPU lock; may be busy with research. No CPU fallback. Maximum 100 following frames; default 20.

@@ -68,6 +68,31 @@ class Tests(unittest.TestCase):
             self.assertEqual(h.calls,101)
             h.track(image,[{'type':'mask','points':[]}]*7,out['states'])
             self.assertIsNone(h.item)
+    def test_polygon_seeds_match_equivalent_mask(self):
+        # A polygon and a mask describing the same rectangle must yield the same bitmap.
+        h = self.handler(); image = Image.new('RGB', (8, 8))
+        polygon = [1, 1, 6, 1, 6, 6, 1, 6]
+        expected = np.zeros((8, 8), bool); expected[1:7, 1:7] = True
+        np.testing.assert_array_equal(m.decode_polygon(polygon, 8, 8), expected)
+        np.testing.assert_array_equal(m.shape_bitmap({'type': 'polygon', 'points': polygon}, 8, 8), expected)
+        init = h.track(image, [{'type': 'polygon', 'points': polygon, 'frames': 2}], [])
+        self.assertEqual(init['shapes'], [{'type': 'mask', 'points': m.encode_mask(expected)}])
+        self.assertEqual(h.calls, 1, 'seed frame must be encoded once')
+        h.track(image, [{'type': 'mask', 'points': []}], init['states'])
+
+    def test_polygon_validation(self):
+        for points in ([0, 0, 1, 1], [0, 0, 1, 1, 2, 2, 3], [0, 0, 1, 1, 'x', 2], [0, 0, 1, 1, float('inf'), 2], [8, 8, 8, 8, 8, 8]):
+            with self.subTest(points=points), self.assertRaises(ValueError):
+                m.decode_polygon(points, 8, 8)
+
+    def test_other_seed_types_rejected(self):
+        h = self.handler(); image = Image.new('RGB', (8, 8))
+        for shapes in ([{'type': 'rectangle', 'points': [0, 0, 4, 4]}], [{'type': 'points', 'points': [1, 1]}],
+                       [{'type': 'mask', 'points': m.encode_mask(np.eye(8, dtype=bool))}, {'type': 'rectangle', 'points': [0, 0, 4, 4]}]):
+            with self.assertRaisesRegex(ValueError, 'mask or polygon'):
+                h.track(image, shapes, [])
+        self.assertEqual(h.calls, 0)
+
     def test_gpu_lock_denial_no_state(self):
         h=self.handler()
         def denied():raise ValueError('GPU is busy')

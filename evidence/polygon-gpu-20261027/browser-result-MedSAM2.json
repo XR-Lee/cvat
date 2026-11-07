@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "model": "MedSAM2",
+  "message": "完成（MedSAM2），结果已放入编辑器，请逐帧检查后 Save。\n",
+  "polygon_listed": true,
+  "staged": [
+    {
+      "frame": 0,
+      "type": "polygon",
+      "group": 1,
+      "label": 85
+    },
+    {
+      "frame": 1,
+      "type": "mask",
+      "group": 1,
+      "label": 85
+    },
+    {
+      "frame": 2,
+      "type": "mask",
+      "group": 1,
+      "label": 85
+    },
+    {
+      "frame": 3,
+      "type": "mask",
+      "group": 1,
+      "label": 85
+    }
+  ],
+  "saved_count": 4,
+  "gpu_calls": [
+    "pth-medsam2-video-mask-gpu",
+    "pth-medsam2-video-mask-gpu",
+    "pth-medsam2-video-mask-gpu",
+    "pth-medsam2-video-mask-gpu",
+    "pth-medsam2-video-mask-gpu"
+  ],
+  "errors": []
+}
