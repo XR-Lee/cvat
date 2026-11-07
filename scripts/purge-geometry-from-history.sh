@@ -9,6 +9,13 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# git is not on PATH on this host; fall back to the known installs.
+if ! command -v git >/dev/null 2>&1; then
+    for candidate in /home/sihan/miniconda3/bin/git /home/xinrun/miniconda3/bin/git /usr/bin/git /usr/local/bin/git; do
+        [ -x "$candidate" ] && export PATH="$(dirname "$candidate"):$PATH" && break
+    done
+fi
+command -v git >/dev/null || { echo "git not found" >&2; exit 1; }
 SANITIZER="${SANITIZER:-$ROOT/tools/sanitize-evidence.py}"
 BACKUP_REF="refs/backup/pre-geometry-redaction"
 
