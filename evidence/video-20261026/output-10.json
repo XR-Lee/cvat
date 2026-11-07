@@ -20,8 +20,6 @@
   ],
   "states": {
     "redacted": true,
-    "kind": "geometry",
-    "length": 1,
-    "sha256": "504b7f69d47325638dc722b87fc45d89799c3284dffbe7f94454585997cfbbcf"
+    "kind": "signed-state"
   }
 }

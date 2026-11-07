@@ -24,8 +24,8 @@ the whole delta is **6 items**:
 | 2 | `docker-compose.override.yml` | **new** — host name, CSRF origins, traefik routing, custom UI image, nuclio port |
 | 3 | `production.public.py` | **new** — Django settings: nginx sendfile, uvicorn access log, CSRF origins from env |
 | 4 | `components/sam2-video/` | **new** — browser plugins + Dockerfiles for the SAM2 UI actions |
-| 5 | `serverless/pytorch/facebookresearch/sam2/` | **new** — 5 SAM2 nuclio functions + tests |
-| 6 | `serverless/pytorch/bowang-lab/medsam2/` | **new** — 3 MedSAM2 nuclio functions + tests |
+| 5 | `serverless/pytorch/facebookresearch/sam2/` | **new** — 5 SAM2 nuclio functions + tests (point/box interactor, auto-labeling detector, rectangle tracker, CPU + GPU multi-mask video trackers) |
+| 6 | `serverless/pytorch/bowang-lab/medsam2/` | **new** — 3 MedSAM2 nuclio functions + tests (auto-labeling detector, point/box interactor, GPU multi-mask video tracker) |
 
 Everything else in the upstream tree is untouched.
 
@@ -50,7 +50,8 @@ scripts/                     apply / build / operate
   presign.py                 OSS presigned GET URL generator
   create-tasks-from-oss.py   bulk-create annotation tasks from OSS videos
 docs/                        deployment, models, task inventory
-evidence/                    verification artifacts (JSON/logs) per change
+evidence/                    verification artifacts (JSON/logs) per change, geometry-redacted
+tools/                       sanitize-evidence.py (strips pixel geometry from evidence)
 ```
 
 ---
@@ -62,7 +63,7 @@ evidence/                    verification artifacts (JSON/logs) per change
 ./scripts/apply-overlay.sh            # -> ./cvat
 
 # 2. build the custom images
-./scripts/build-ui.sh                 # cvat/ui:sam2-video-v1, cvat/ui:sam2-multi-gpu-v4-medsam2
+./scripts/build-ui.sh                 # cvat/ui:sam2-video-v1, cvat/ui:sam2-multi-gpu-v5-polygon
 ./scripts/build-nuclio.sh             # SAM2 / MedSAM2 functions
 
 # 3. bring the stack up
@@ -81,8 +82,8 @@ cd cvat && docker compose up -d
 | Public origin | `https://cvat.lxrserver.xyz` (Cloudflare → traefik) |
 | Traefik HTTP port | `18080` (upstream default 8080/8090 conflicts) |
 | Server image | `cvat/server:v2.80.0` |
-| UI image | `cvat/ui:sam2-multi-gpu-v4-medsam2` |
-| GPU | NVIDIA driver 595.71.05, CUDA 12.8, nuclio GPU functions |
+| UI image | `cvat/ui:sam2-multi-gpu-v5-polygon` |
+| GPU | RTX 4090, CUDA 12.8; functions link the host NVIDIA libraries at start-up (driver-upgrade proof) |
 
 Details: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
 
@@ -93,10 +94,10 @@ Details: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
 | `pth-facebookresearch-sam2-1-hiera-large` | SAM 2.1 Hiera-L | single-click segmentation |
 | `...-auto` | SAM 2.1 Hiera-L | automatic mask generation |
 | `...-tracker` | SAM 2.1 Hiera-L | **rectangle-only** object tracking |
-| `...-video-mask` / `...-video-mask-gpu` | SAM 2.1 | temporal mask propagation |
+| `...-video-mask` / `...-video-mask-gpu` | SAM 2.1 | temporal mask/polygon propagation (GPU: 1–7 objects, ≤100 frames) |
 | `pth-medsam2-auto` | MedSAM2 | automatic mask generation |
 | `pth-medsam2-interactor` | MedSAM2 | interactive prompts |
-| `pth-medsam2-video-mask-gpu` | MedSAM2 | temporal mask propagation |
+| `pth-medsam2-video-mask-gpu` | MedSAM2 | temporal mask/polygon propagation (experimental) |
 
 Details: [`docs/MODELS.md`](docs/MODELS.md)
 
@@ -110,6 +111,23 @@ Project **1 — Endoscopic Discectomy**, 14 mask labels
 `oss-pai-zcwendo-op-cq` / `已处理视频/`, 1920×1080 @30 fps, 270,540 frames total.
 
 Inventory and how they were created: [`docs/ANNOTATION-TASKS.md`](docs/ANNOTATION-TASKS.md)
+
+---
+
+## Evidence policy
+
+`evidence/` keeps the *verification results* (counts, IoU, latency, pass/fail)
+but **not pixel-level annotation geometry**: mask RLE, polygon vertices and
+signed tracker-state blobs encode the surgical video and are treated like the
+screenshots, which `.gitignore` already excludes. Raw diagnostics stay on the
+deployment host under `/home/xinrun/cvat/.diagnostics/`.
+
+Before committing evidence:
+
+```bash
+python3 tools/sanitize-evidence.py evidence     # rewrite geometry as digests
+python3 tools/sanitize-evidence.py --check evidence   # fail if any remains
+```
 
 ---
 

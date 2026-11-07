@@ -54,9 +54,7 @@
   ],
   "states": {
     "redacted": true,
-    "kind": "geometry",
-    "length": 3,
-    "sha256": "1e300a3682bd5d832d196eae7b80394e0bbbc963973c84771cc149b7f4f53099"
+    "kind": "signed-state"
   },
   "device": "cuda",
   "objects": [

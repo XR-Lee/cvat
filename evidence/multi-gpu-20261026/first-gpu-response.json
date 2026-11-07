@@ -2,9 +2,7 @@
   "shapes": [],
   "states": {
     "redacted": true,
-    "kind": "geometry",
-    "length": 0,
-    "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    "kind": "signed-state"
   },
   "error": "GPU is busy with another research job. Retry later; no annotations were changed",
   "device": "cuda"
