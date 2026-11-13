@@ -1,6 +1,8 @@
-# Extend the verified single-mask UI with an explicit multi-object GPU button.
+# Extend the verified single-mask UI with an explicit multi-object GPU button
+# and an annotated-frames badge on the task list.
 FROM cvat/ui:sam2-video-v1
 USER root
 COPY multi-mask-gpu.js /usr/share/nginx/html/multi-mask-gpu.js
-RUN sed -i 's@</body>@<script defer src="/multi-mask-gpu.js?v=polygon-1"></script></body>@' /usr/share/nginx/html/index.html
+COPY annotated-frames.js /usr/share/nginx/html/annotated-frames.js
+RUN sed -i 's@</body>@<script defer src="/multi-mask-gpu.js?v=polygon-1"></script><script defer src="/annotated-frames.js?v=1"></script></body>@' /usr/share/nginx/html/index.html
 USER 101
