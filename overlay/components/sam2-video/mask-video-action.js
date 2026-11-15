@@ -19,7 +19,7 @@
                         { type: 'warning', message: 'Never overwrites existing annotations. Frames already containing the same label are skipped. Stops if the mask disappears or changes area abruptly. Medical predictions require review. Save pending edits before running. Cancel discards this run.' }];
                 }
                 get parameters() {
-                    return { 'Frames forward': { type: 'number', values: ['1', '50', '1'], defaultValue: '20' } };
+                    return { 'Frames forward': { type: 'number', values: ['1', '50', '1'], defaultValue: '10' } };
                 }
                 isApplicableForObject(state) { return state.objectType === 'shape' && state.shapeType === 'mask'; }
                 applyFilter({ collection, frameData }) {
@@ -31,7 +31,7 @@
                     if (!(job instanceof core.classes.Job)) throw new Error('Open a video job first');
                     if (job.annotations.hasUnsavedChanges()) throw new Error('Save your annotations before starting mask propagation');
                     this.job = job;
-                    this.steps = Number(parameters['Frames forward']);
+                    this.steps = Number(parameters['Frames forward'] ?? 10);
                     if (!Number.isInteger(this.steps) || this.steps < 1 || this.steps > 50) throw new Error('Choose 1–50 frames');
                     const { models } = await core.lambda.list();
                     this.model = models.find((m) => m.id === MODEL_ID);

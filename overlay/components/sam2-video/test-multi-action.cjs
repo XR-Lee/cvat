@@ -27,7 +27,7 @@ test('duplicate group rejected',async()=>{const h=harness();h.seeds[1].group=h.s
 test('unsaved seeds blocked',async()=>{const h=harness({unsaved:true});await assert.rejects(run(h),/Save your pending/);assert.equal(h.calls,0);});
 test('seven masks and 100 following frames yields 700 independent masks',async()=>{
  const h=harness({count:7,frames:100});h.frames=100;
- assert.equal(h.action.parameters['Frames forward'].defaultValue,'20');
+ assert.equal(h.action.parameters['Frames forward'].defaultValue,'10','default is 10 frames');
  assert.equal(h.action.parameters['Frames forward'].values[1],'100');
  const out=await run(h);assert.equal(out.created.shapes.length,700);
  for(let group=1;group<=7;group++)assert.equal(out.created.shapes.filter(s=>s.group===group).length,100);
@@ -72,5 +72,15 @@ test('rectangle seeds are not offered to the GPU action',async()=>{
  assert.equal(h.action.isApplicableForObject(fakeState),false);
  assert.equal(h.action.isApplicableForObject({objectType:'shape',shapeType:'polygon'}),true);
  assert.equal(h.action.isApplicableForObject({objectType:'shape',shapeType:'mask'}),true);
+ await h.action.destroy();
+});
+
+test('frames-forward default is 10 and limits are unchanged',async()=>{
+ const h=harness();
+ assert.equal(h.action.parameters['Frames forward'].defaultValue,'10');
+ assert.deepEqual(Array.from(h.action.parameters['Frames forward'].values),['1','100','1']);
+ // omitting the parameter must fall back to 10 following frames
+ await h.action.init(h.job,{});
+ assert.equal(h.action.steps,10);
  await h.action.destroy();
 });

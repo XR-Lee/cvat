@@ -13,6 +13,7 @@
     const NAME = 'SAM2 Multi-Mask Video Propagation - GPU';
     const MAX_OBJECTS = 7;
     const MAX_FRAMES = 100;
+    const DEFAULT_FRAMES = 10; // shorter default: less drift before the first review
     const empty = () => ({ shapes: [], tags: [], tracks: [] });
     const unchanged = () => ({ created: empty(), deleted: empty() });
     const clone = (x) => JSON.parse(JSON.stringify(x));
@@ -57,7 +58,7 @@
                     {type:'warning',message:'GPU busy errors mean another research job owns the card; retry later. Existing same-Group annotations are preserved. Ungrouped overlapping same-label masks are conservatively skipped. Missing/unstable objects stop individually; review all results.'}
                 ];}
                 get parameters(){return {
-                    'Frames forward':{type:'number',values:['1',String(MAX_FRAMES),'1'],defaultValue:'20'},
+                    'Frames forward':{type:'number',values:['1',String(MAX_FRAMES),'1'],defaultValue:String(DEFAULT_FRAMES)},
                     Model:{type:'select',values:Object.keys(MODELS),defaultValue:DEFAULT_MODEL},
                 };}
                 isApplicableForObject(s){return s.objectType==='shape'&&SEED_TYPES.has(s.shapeType);}
@@ -67,7 +68,8 @@
                     this.acquired=false;this.states=null;
                     if(!(job instanceof core.classes.Job))throw Error('Open a video job');
                     if(job.annotations.hasUnsavedChanges())throw Error('Save your pending annotations first');
-                    this.steps=Number(params['Frames forward']);
+                    // CVAT fills declared defaults before init(); fall back anyway.
+                    this.steps=Number(params['Frames forward'] ?? DEFAULT_FRAMES);
                     if(!Number.isInteger(this.steps)||this.steps<1||this.steps>MAX_FRAMES)throw Error(`Choose 1–${MAX_FRAMES} frames`);
                     const requested=params.Model??DEFAULT_MODEL;
                     this.modelName=Object.hasOwn(MODELS,requested)?requested:null;
@@ -191,7 +193,7 @@
                 if(dialog)return;
                 const state=store.getState(),job=state.annotation.job.instance,frame=state.annotation.player.frame.number;
                 dialog=document.createElement('dialog');dialog.id='cvat-multi-mask-gpu-dialog';dialog.style.cssText='width:580px;max-width:90vw;border:1px solid #91caff;border-radius:10px;padding:24px;box-shadow:0 10px 40px #0005';
-                dialog.innerHTML=`<h2 style="margin-top:0">多 Mask 视频跟踪 · GPU</h2><p>勾选当前帧的 1–${MAX_OBJECTS} 个已保存 Mask 或多边形（结果保存为 Mask）；支持不同类别及同类别的不同对象。</p><div data-role="objects" style="max-height:240px;overflow:auto"></div><p><label>模型 <select data-role="model">${Object.entries(MODELS).map(([value,{label}])=>`<option value="${value}">${label}</option>`).join('')}</select></label></p><p data-role="model-note" style="font-size:12px;color:#ad4e00;margin:4px 0"></p><p><label>向后帧数 <input data-role="frames" type="number" min="1" max="${MAX_FRAMES}" value="20" style="width:70px"></label></p><p>最多 ${MAX_FRAMES} 帧；长片段更容易漂移，请检查后再 Save。不会覆盖已有对象。GPU 被其他任务占用时会提示稍后重试。</p><progress data-role="progress" max="100" value="0" style="width:100%"></progress><p data-role="status" role="status" style="white-space:pre-wrap"></p><div style="display:flex;justify-content:flex-end;gap:12px"><button data-role="close">关闭</button><button data-role="run">开始 GPU 跟踪</button></div>`;
+                dialog.innerHTML=`<h2 style="margin-top:0">多 Mask 视频跟踪 · GPU</h2><p>勾选当前帧的 1–${MAX_OBJECTS} 个已保存 Mask 或多边形（结果保存为 Mask）；支持不同类别及同类别的不同对象。</p><div data-role="objects" style="max-height:240px;overflow:auto"></div><p><label>模型 <select data-role="model">${Object.entries(MODELS).map(([value,{label}])=>`<option value="${value}">${label}</option>`).join('')}</select></label></p><p data-role="model-note" style="font-size:12px;color:#ad4e00;margin:4px 0"></p><p><label>向后帧数 <input data-role="frames" type="number" min="1" max="${MAX_FRAMES}" value="${DEFAULT_FRAMES}" style="width:70px"></label></p><p>最多 ${MAX_FRAMES} 帧；长片段更容易漂移，请检查后再 Save。不会覆盖已有对象。GPU 被其他任务占用时会提示稍后重试。</p><progress data-role="progress" max="100" value="0" style="width:100%"></progress><p data-role="status" role="status" style="white-space:pre-wrap"></p><div style="display:flex;justify-content:flex-end;gap:12px"><button data-role="close">关闭</button><button data-role="run">开始 GPU 跟踪</button></div>`;
                 const groupHelp=document.createElement('p');
                 groupHelp.id='cvat-multi-mask-group-help';
                 groupHelp.style.cssText='font-size:12px;line-height:1.5;color:#595959;margin:8px 0';

@@ -1,13 +1,13 @@
 # SAM2 Mask Video Propagation for this CVAT Community deployment
 
-**Update:** Multi-object CUDA propagation is now deployed via the top-toolbar **Mask · GPU** icon button (tooltip: **多 Mask 跟踪 · GPU**). See [GPU-MULTI.md](GPU-MULTI.md) for the current GPU workflow, runtime, protection policy and verification. The single-object CPU action described below remains available as a fallback; the live UI image is now `cvat/ui:sam2-multi-gpu-v5-polygon`. The GPU action supports up to 7 Masks or Polygons and 100 following frames, default 20; output is saved as Masks.
+**Update:** Multi-object CUDA propagation is now deployed via the top-toolbar **Mask · GPU** icon button (tooltip: **多 Mask 跟踪 · GPU**). See [GPU-MULTI.md](GPU-MULTI.md) for the current GPU workflow, runtime, protection policy and verification. The single-object CPU action described below remains available as a fallback; the live UI image is now `cvat/ui:sam2-multi-gpu-v7-frames10`. The GPU action supports up to 7 Masks or Polygons and 100 following frames, default 10; output is saved as Masks.
 
 ## Single-mask CPU workflow
 
 1. Save the seed Mask in the job. Refresh once after this deployment.
 2. Open the Mask's object menu (three dots) → **Run annotation action**.
 3. Select **SAM2 Mask Video Propagation**.
-4. Set **Frames forward** (default 20, permitted 1–50).
+4. Set **Frames forward** (default 10, permitted 1–50).
 5. Run and keep the tab open. CPU takes roughly 6 seconds per frame here.
 6. Inspect subsequent frames. Results remain unsaved until **Save**. Cancel or a failed run adds no partial output. Undo removes the generated collection; seed grouping is a separate undo step if a new group was assigned.
 7. For a longer sequence, correct and save the last good propagated Mask, then run from that frame.
