@@ -1,0 +1,9 @@
+{
+  "format": "coco",
+  "frames": 77,
+  "annotations": 238,
+  "categories": 14,
+  "task": 2,
+  "quality": "compressed",
+  "annotated_frames": 77
+}

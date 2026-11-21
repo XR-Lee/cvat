@@ -113,6 +113,46 @@ docker exec nuclio-nuclio-pth-facebookresearch-sam2-video-mask-gpu \
 docker logs nuclio-nuclio-pth-medsam2-video-mask-gpu 2>&1 | grep 'host driver'
 ```
 
+## Exporting only annotated frames
+
+CVAT's export API accepts only `format`, `filename`, `location`,
+`cloud_storage_id` and `save_images` (`cvat/apps/engine/mixins.py`) - there is
+**no "annotated frames only" option**, and image export always writes every
+frame at original quality. For mostly-unannotated video that is wasteful:
+task #2 (13,632 frames, 77 annotated) produced a ~9 GiB PNG dataset.
+
+`scripts/export-annotated-frames.py` builds the same dataset from two cheap
+calls instead: the annotations-only export (small) plus a per-frame fetch of
+just the annotated frames.
+
+```bash
+# COCO, compressed JPEG frames
+python3 scripts/export-annotated-frames.py --task 2 --format coco --out /tmp/task2
+
+# Segmentation mask (SegmentationClass/Object + JPEGImages), zipped
+python3 scripts/export-annotated-frames.py --task 2 --format segmentation-mask \
+    --quality compressed --out /tmp/task2 --zip
+
+# original-quality PNG frames instead of JPEG
+python3 scripts/export-annotated-frames.py --task 2 --format coco --quality original --out /tmp/task2png
+```
+
+Measured on task #2 (13,632 frames, 77 annotated, 238 annotations):
+
+| Output | Size |
+|---|---|
+| COCO, 77 JPEG frames + annotations | **2.4 MB** (1.45 MB zipped) |
+| Segmentation mask, 77 frames (154 mask PNGs) + images | **3.3 MB** |
+| Equivalent full export with images (PNG) | ~9 GiB |
+
+Verified: every COCO annotation references a kept image and every referenced
+file exists; the instance map for frame 0 has exactly the annotated area
+(121,747 px) and the semantic map uses the task's labelmap colours.
+
+Limitations: `--project` is not implemented (export task by task), and
+annotation shapes are filtered by frame only - a frame keeps all of its
+annotations.
+
 ## Aliyun OSS integration
 
 **Reading videos.** `remote_files` + presigned GET URLs. Do *not* try to register

@@ -1,0 +1,8 @@
+{
+  "format": "segmentation-mask",
+  "frames": 77,
+  "mask_files": 154,
+  "task": 2,
+  "quality": "compressed",
+  "annotated_frames": 77
+}
