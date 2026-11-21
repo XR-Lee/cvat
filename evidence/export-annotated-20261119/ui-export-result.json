@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "coco": {
+    "file": "/home/xinrun/cvat/.diagnostics/export-annotated-20261119/ui-coco.zip",
+    "size": 152522,
+    "status": "完成：2 帧，2 个标注，0.1 MB。"
+  },
+  "segmask": {
+    "file": "/home/xinrun/cvat/.diagnostics/export-annotated-20261119/ui-segmask.zip",
+    "size": 162272
+  },
+  "writes": 0,
+  "errors": []
+}
