@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "frames": 3,
+  "annotated": [
+    0,
+    2
+  ],
+  "ticks": 2,
+  "tick_columns": [
+    0,
+    1,
+    233,
+    234
+  ],
+  "walked": [
+    2
+  ],
+  "back": 0
+}

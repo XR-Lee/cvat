@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "task": 15,
+  "job": 15,
+  "annotated_frames": 240,
+  "span": [
+    1712,
+    9758
+  ],
+  "marked_columns": 28,
+  "jumps": {
+    "start": 0,
+    "first": 1712,
+    "second": 1713,
+    "back": 1712
+  },
+  "errors": []
+}

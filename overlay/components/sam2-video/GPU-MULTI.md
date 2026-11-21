@@ -19,6 +19,26 @@ The equivalent annotation action is **SAM2 Multi-Mask Video Propagation - GPU**.
 - The older single-mask CPU action remains mask-only.
 - Tests: frontend 18/18 (3 polygon cases), SAM2.1 GPU 8/8 (3 new), MedSAM2 GPU 4/4 (1 new). Public end-to-end: polygon seeds propagated through both GPU services (valid areas, output type mask, temp job unchanged); public browser run listed the polygon, produced 3 masks in one Group with the seed polygon untouched, saved 4 shapes; the object-menu **Run annotation action** now offers the GPU action for polygons. Temporary task deleted; Task 2 untouched. Evidence: `.diagnostics/polygon-gpu-20261027/`.
 
+## Annotated-frame markers and navigation (2026-11-19)
+
+Inside the annotation editor (injected by `components/sam2-video/annotated-frame-nav.js`):
+
+- **Amber ticks** along the bottom edge of the frame slider mark every frame that carries at least one shape. Drawn on a canvas sized to the slider, so jobs with thousands of annotated frames stay cheap; adjacent annotated frames coalesce into the same 2 px tick.
+- **Two transport buttons** (`<·` and `·▶`) appended to the player buttons jump to the previous / next annotated frame. They disable themselves at the ends and expose the target frame number in the tooltip/`aria-label`. Arrow buttons are keyboard operable (Enter/Space).
+- Data comes from `job.annotations.export()` — the in-memory collection — so **unsaved edits are reflected** and no extra API requests are made. It refreshes every 3 s and on job switch. Job annotation frames are segment-relative, so `job.startFrame` is added to map them onto the player's absolute frame numbers.
+- Frames that only appear inside tracks are included (keyframes with `outside: false`).
+- Hidden automatically outside the editor or when there is no job.
+
+Verification (`.diagnostics/annotated-frames-20261027/`, committed under `evidence/`):
+
+| Case | Result |
+|---|---|
+| Task 2 / job 1 (13,632 frames, 77 annotated, all in 0–83) | 4 coalesced ticks at the left edge, positions match API |
+| Task 15 / job 15 (15,660 frames, 240 annotated, span 1712–9758) | 28 ticks from x=38 to x=219 vs expected 38/218; next → 1712 → 1713, prev → 1712 |
+| Disposable 3-frame task, shapes on frames 0 and 2 only | exactly 2 ticks (x=0, x=233); one jump 0→2; next disabled at the end; prev → 0 |
+
+No page errors and no annotation or model writes during any of these runs; the disposable task was removed afterwards.
+
 ## Object identity and protection
 
 - CVAT Group is generic grouping metadata, not a category, confidence score, or native interpolated Track ID. In this custom workflow it links one physical object's per-frame Masks. Group numbers are arbitrary; 0 means ungrouped. Different objects, even with the same label, need different groups. The dialog displays `对象组 N` or `未分组（运行后自动分组）` and explains this distinction.

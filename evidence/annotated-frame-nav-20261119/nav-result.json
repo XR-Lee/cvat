@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "api_annotated_frames": 77,
+  "first_annotated_frames": [
+    0,
+    2,
+    9,
+    10,
+    11,
+    12
+  ],
+  "next_jumps": [
+    2,
+    9,
+    10
+  ],
+  "prev_jump": 9,
+  "canvas": {
+    "width": 350,
+    "slider_width": 350,
+    "marked_columns": 4
+  },
+  "errors": []
+}
