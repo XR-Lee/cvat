@@ -12,7 +12,7 @@ services:
       traefik.http.routers.cvat.rule: "HostRegexp(`^.+$`) && (PathPrefix(`/api/`) || PathPrefix(`/static/`) || PathPrefix(`/admin`) || PathPrefix(`/django-rq`))"
 
   cvat_ui:
-    image: cvat/ui:sam2-multi-gpu-v9-export-annotated
+    image: cvat/ui:sam2-multi-gpu-v10-export-in-dialog
     labels:
       traefik.http.routers.cvat-ui.rule: "HostRegexp(`^.+$`)"
 

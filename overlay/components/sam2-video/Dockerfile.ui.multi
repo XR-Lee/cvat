@@ -6,5 +6,5 @@ COPY multi-mask-gpu.js /usr/share/nginx/html/multi-mask-gpu.js
 COPY annotated-frames.js /usr/share/nginx/html/annotated-frames.js
 COPY annotated-frame-nav.js /usr/share/nginx/html/annotated-frame-nav.js
 COPY export-annotated.js /usr/share/nginx/html/export-annotated.js
-RUN sed -i 's@</body>@<script defer src="/multi-mask-gpu.js?v=frames10-1"></script><script defer src="/annotated-frames.js?v=1"></script><script defer src="/annotated-frame-nav.js?v=1"></script><script defer src="/export-annotated.js?v=1"></script></body>@' /usr/share/nginx/html/index.html
+RUN sed -i 's@</body>@<script defer src="/multi-mask-gpu.js?v=frames10-1"></script><script defer src="/annotated-frames.js?v=1"></script><script defer src="/annotated-frame-nav.js?v=1"></script><script defer src="/export-annotated.js?v=2"></script></body>@' /usr/share/nginx/html/index.html
 USER 101

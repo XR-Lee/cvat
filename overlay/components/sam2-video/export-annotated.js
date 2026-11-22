@@ -369,10 +369,53 @@
         });
     }
 
+    // Also surface the entry point inside CVAT's own "Export task as a dataset"
+    // dialog, where users naturally look. The stock dialog is a compiled React
+    // component, so this adds a sibling action instead of a real form field;
+    // it closes that dialog and opens ours.
+    const MODAL_ENTRY_ID = 'cvat-export-annotated-modal-entry';
+    function ensureDialogEntry() {
+        const taskId = taskIdFromLocation();
+        if (!taskId) return;
+        const modal = [...document.querySelectorAll('.ant-modal')].find((element) => (
+            /Export (task|project|job) as a dataset/i.test(element.textContent || '')
+            && element.querySelector('.cvat-run-model-content, .ant-modal-footer')
+        ));
+        if (!modal || modal.querySelector(`#${MODAL_ENTRY_ID}`)) return;
+        const footer = modal.querySelector('.ant-modal-footer');
+        if (!footer) return;
+        const entry = document.createElement('button');
+        entry.id = MODAL_ENTRY_ID;
+        entry.type = 'button';
+        entry.className = 'ant-btn ant-btn-link';
+        entry.style.cssText = 'margin-right:auto;padding-left:0;color:#0958d9';
+        entry.textContent = '\u53ea\u5bfc\u51fa\u5df2\u6807\u6ce8\u5e27\u2026';
+        entry.title = '\u53ea\u5305\u542b\u6709\u6807\u6ce8\u7684\u5e27\uff08\u6d4f\u89c8\u5668\u5185\u6253\u5305\uff09';
+        entry.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            // Close the stock dialog through its own Cancel button so React
+            // tears the modal down normally.
+            const cancel = [...footer.querySelectorAll('button')]
+                .find((button) => /cancel|\u53d6\u6d88/i.test(button.textContent || ''));
+            cancel?.click();
+            openDialog(taskId);
+        });
+        footer.insertBefore(entry, footer.firstChild);
+        const footerStyle = footer.getAttribute('style') || '';
+        if (!/display:\s*flex/.test(footerStyle)) {
+            footer.setAttribute('style', `${footerStyle};display:flex;align-items:center;gap:8px`);
+        }
+    }
+
     function tick() {
         try {
-            if (/^\/tasks\/\d+/.test(window.location.pathname)) ensureButton();
-            else document.getElementById(BUTTON_ID)?.remove();
+            if (/^\/tasks\/\d+/.test(window.location.pathname)) {
+                ensureButton();
+                ensureDialogEntry();
+            } else {
+                document.getElementById(BUTTON_ID)?.remove();
+            }
         } catch (error) {
             // page not ready; ignore
         }
